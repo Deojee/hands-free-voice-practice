@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://dsknasxnh8eam"]
+
+[ext_resource type="Script" uid="uid://cc55midbkbp30" path="res://base.gd" id="1_8rhti"]
+[ext_resource type="Script" uid="uid://dkex2g6fut6kl" path="res://addons/direct_audio_and_wav_24bits/scripts/direct_audio_input_recorder.gd" id="2_ohhpf"]
+[ext_resource type="Script" uid="uid://bqo5emomonmoe" path="res://addons/direct_audio_and_wav_24bits/scripts/audio_stream_player_wav_24b.gd" id="3_21bcp"]
+
+[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_8rhti"]
+buffer_length = 0.1
+
+[node name="base" type="Control" unique_id=95447271]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8rhti")
+
+[node name="DirectAudioInputRecorder" type="Node" parent="." unique_id=1620349023]
+script = ExtResource("2_ohhpf")
+metadata/_custom_type_script = "uid://dkex2g6fut6kl"
+
+[node name="record" type="Button" parent="." unique_id=802176292]
+layout_mode = 0
+offset_left = 275.0
+offset_top = 232.0
+offset_right = 707.0
+offset_bottom = 334.0
+text = "record
+"
+
+[node name="stop" type="Button" parent="." unique_id=508378571]
+layout_mode = 0
+offset_left = 269.0
+offset_top = 371.0
+offset_right = 701.0
+offset_bottom = 473.0
+text = "stop
+
+"
+
+[node name="AudioStreamPlayerWav24B" type="AudioStreamPlayer" parent="." unique_id=286257025]
+stream = SubResource("AudioStreamGenerator_8rhti")
+script = ExtResource("3_21bcp")
+metadata/_custom_type_script = "uid://bqo5emomonmoe"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=2044638723]
+
+[node name="Line2D" type="Line2D" parent="." unique_id=576014224]
+position = Vector2(3, 301)
+width = 5.0
+
+[connection signal="on_input_frame_captured" from="DirectAudioInputRecorder" to="." method="_on_direct_audio_input_recorder_on_input_frame_captured"]
+[connection signal="pressed" from="record" to="." method="_on_record_pressed"]
+[connection signal="pressed" from="stop" to="." method="_on_stop_pressed"]
