@@ -3,35 +3,48 @@
 [ext_resource type="Theme" uid="uid://bleafm430jpqh" path="res://misc/defaultTheme.tres" id="1_bmosb"]
 [ext_resource type="Script" uid="uid://cpyf01bixhean" path="res://scripts/ui/pageElements/module_description.gd" id="2_g1fmm"]
 
-[node name="ModuleDescription" type="Control" unique_id=908347129]
-custom_minimum_size = Vector2(200, 300)
-layout_mode = 3
-anchors_preset = 0
+[node name="ModuleDescription" type="MarginContainer" unique_id=1251765149]
+custom_minimum_size = Vector2(400, 500)
+offset_right = 400.0
+offset_bottom = 576.0
+size_flags_horizontal = 3
 theme = ExtResource("1_bmosb")
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 script = ExtResource("2_g1fmm")
 
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1409401134]
+layout_mode = 2
+color = Color(0.3403393, 0.34033933, 0.3403393, 1)
+
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=27771671]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = 18.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 
 [node name="name" type="Label" parent="VBoxContainer" unique_id=663824577]
 layout_mode = 2
-text = "name"
+text = "name jgfdlkgjfslk
+gfjlsd
+gfslak
+gjfsdag"
+horizontal_alignment = 1
+autowrap_mode = 1
 
 [node name="clips" type="Label" parent="VBoxContainer" unique_id=530088880]
 layout_mode = 2
-text = "clips"
+text = "clips:1000"
+horizontal_alignment = 1
+autowrap_mode = 1
 
 [node name="length" type="Label" parent="VBoxContainer" unique_id=1167064155]
 layout_mode = 2
 text = "length"
+horizontal_alignment = 1
+autowrap_mode = 1
 
 [node name="Button" type="Button" parent="VBoxContainer" unique_id=658005010]
 layout_mode = 2
 text = "PLAY!"
+
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]

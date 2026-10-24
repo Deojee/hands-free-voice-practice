@@ -2,6 +2,45 @@
 
 [ext_resource type="Theme" uid="uid://bleafm430jpqh" path="res://misc/defaultTheme.tres" id="1_3io21"]
 [ext_resource type="Script" uid="uid://f2o48ik2xerx" path="res://scripts/ui/main_menu.gd" id="2_q7y1n"]
+[ext_resource type="Script" uid="uid://c5lhty2q23vus" path="res://scripts/playDefault.gd" id="3_monb1"]
+
+[sub_resource type="Animation" id="Animation_h2yh5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_fhfcd"]
+resource_name = "default"
+length = 10.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2, 4, 6, 8, 10),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.61960787, 1, 1), Color(0.48862666, 0.9005527, 0.97409767, 1), Color(0.65908444, 0.9337018, 0.98273176, 1), Color(1, 0.61960787, 1, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2lysi"]
+_data = {
+&"RESET": SubResource("Animation_h2yh5"),
+&"default": SubResource("Animation_fhfcd")
+}
 
 [node name="MainMenu" type="Control" unique_id=710223108]
 layout_mode = 3
@@ -20,6 +59,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ColorRect" unique_id=1618940353]
+root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_2lysi")
+speed_scale = 0.5
+script = ExtResource("3_monb1")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1821614915]
 layout_mode = 1
@@ -51,10 +96,12 @@ text = "Modules"
 
 [node name="module workshop" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1664668965]
 layout_mode = 2
+disabled = true
 text = "Module Workshop"
 
 [node name="settings" type="Button" parent="MarginContainer/VBoxContainer" unique_id=776159556]
 layout_mode = 2
+disabled = true
 text = "Settings
 "
 
@@ -63,4 +110,5 @@ layout_mode = 2
 text = "Quit
 "
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1618940353]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/modules" to="." method="_on_modules_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/quit" to="." method="_on_quit_pressed"]

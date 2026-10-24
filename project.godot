@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Hands Free Voice Practice"
-run/main_scene="uid://dsknasxnh8eam"
+run/main_scene="uid://bh0gghfe20jlk"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 

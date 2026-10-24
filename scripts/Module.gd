@@ -7,4 +7,7 @@ var references : Array[ReferenceClip]
 func getClipNum():
 	return references.size()
 func getLength():
-	pass
+	var sum = 0
+	for clip in references:
+		sum += clip.getLength()
+	return sum
