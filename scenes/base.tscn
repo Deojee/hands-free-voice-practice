@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dsknasxnh8eam"]
 
-[ext_resource type="Script" uid="uid://cc55midbkbp30" path="res://base.gd" id="1_8rhti"]
+[ext_resource type="Script" uid="uid://cc55midbkbp30" path="res://scripts/base.gd" id="1_8rhti"]
 [ext_resource type="Script" uid="uid://dkex2g6fut6kl" path="res://addons/direct_audio_and_wav_24bits/scripts/direct_audio_input_recorder.gd" id="2_ohhpf"]
 [ext_resource type="Script" uid="uid://bqo5emomonmoe" path="res://addons/direct_audio_and_wav_24bits/scripts/audio_stream_player_wav_24b.gd" id="3_21bcp"]
 [ext_resource type="Texture2D" uid="uid://bk81ea8rfw1bn" path="res://icon.svg" id="4_ohhpf"]

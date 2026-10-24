@@ -43,32 +43,40 @@ func _on_stop_pressed() -> void:
 	player.play_24bit(recording)
 
 
+var LLargest = 0
+var SSmallest = 10
 func _on_direct_audio_input_recorder_on_input_frame_captured(last_input_frames: PackedVector2Array, delta: float) -> void:
 	#print("chunk:", last_input_frames.size())
 	#print(last_input_frames)
-	var largest = 0
-	var smallest = 1
-	for i in range(last_input_frames.size()):
-		var data = last_input_frames[i].x
-		if data > largest:
-			largest = data
-		if data < smallest:
-			smallest = data
+	#var largest = 0
+	#var smallest = 1
+	#for i in range(last_input_frames.size()):
+		#var data = last_input_frames[i].x
+		#if data > largest:
+			#largest = data
+		#if data < smallest:
+			#smallest = data
+	#
+	#prints("L",largest,"S",smallest)
+	#if LLargest < largest:
+		#LLargest = largest
+	#if SSmallest > smallest:
+		#SSmallest = smallest
+	#prints("LL",LLargest,"SS",SSmallest)
 	
-	print(largest,smallest)
-	pass
 	var inputSize = last_input_frames.size()
+	print(inputSize)
 	
 	if inputSize == 0:
 		return
 	
 	
 	for i in range(inputSize):
-		var data = last_input_frames[i].x * 1000
-		data = remap(data,0,5,0,1)
+		var data = last_input_frames[i].x
+		data = remap(data,-0.14/2.0,0.2/2.0,0,1)
 		var color = Color.RED.lerp(Color.BLACK,data)
 		
-		print(data)
+		#print(data)
 		
 		if inputSize == 512:
 			var j = i*2.0
