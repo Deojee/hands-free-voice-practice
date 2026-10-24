@@ -3,52 +3,29 @@ extends Control
 @onready var recorder = $DirectAudioInputRecorder
 @onready var player = $AudioStreamPlayerWav24B
 
-var line : Line2D
+var spectrogram : TextureRect 
 
-var linePoints = 300
 var volumeScale = 1.5
+var textureRes : Vector2 = Vector2(512,1024)
+
+var image: Image
+var texture: ImageTexture
+var spectrogramCol = 0
 
 func _ready() -> void:
+	spectrogram = $TextureRect
 	
-	line = $Line2D
-	
-	line.clear_points()
-	
-	# Get the real size of your tablet screen right now
-	var screen_size = get_viewport_rect().size
-	var screen_width = screen_size.x
-	var center_y = screen_size.y / 2.0
-	
-	
-	for i in range(linePoints):
-		var x_pos = i * (screen_width / (linePoints - 1))
-		line.add_point(Vector2(x_pos, center_y))
-	
-		pass
-func _physics_process(delta: float) -> void:
-	
-	return
-	var copyLine = line.points
-	
-	for i in range(1,linePoints):
-		line.set_point_position(i,
-			Vector2(
-				line.get_point_position(i).x,
-				copyLine[i-1].y
-			)
-		)
-	
-	line.set_point_position(0, 
-		Vector2(
-			0,
-			-recorder.get_peak_volume_db().x * volumeScale
-		)
-	)
-	
-	print(recorder.get_peak_volume_db())
-	print(line.get_point_position(0).y)
+	image = Image.create(textureRes.x,textureRes.y,false,Image.FORMAT_BPTC_RGBA)
+	image.decompress()
+	texture = ImageTexture.create_from_image(image)
+	spectrogram.texture = texture
 	
 	pass
+
+
+func _physics_process(delta: float) -> void:
+	pass
+	
 
 
 func _on_record_pressed() -> void:
@@ -68,17 +45,47 @@ func _on_stop_pressed() -> void:
 
 func _on_direct_audio_input_recorder_on_input_frame_captured(last_input_frames: PackedVector2Array, delta: float) -> void:
 	#print("chunk:", last_input_frames.size())
-	print(last_input_frames)
+	#print(last_input_frames)
+	var largest = 0
+	var smallest = 1
+	for i in range(last_input_frames.size()):
+		var data = last_input_frames[i].x
+		if data > largest:
+			largest = data
+		if data < smallest:
+			smallest = data
 	
-	linePoints = last_input_frames.size()
+	print(largest,smallest)
+	pass
+	var inputSize = last_input_frames.size()
 	
-	line.clear_points()
-	var screen_size = get_viewport_rect().size
-	var screen_width = screen_size.x
-	var center_y = screen_size.y / 2.0
+	if inputSize == 0:
+		return
 	
-	for i in range(linePoints):
-		var x_pos = i * (screen_width / (linePoints - 1))
-		line.add_point(Vector2(x_pos, last_input_frames[i].x * 1000))
 	
+	for i in range(inputSize):
+		var data = last_input_frames[i].x * 1000
+		data = remap(data,0,5,0,1)
+		var color = Color.RED.lerp(Color.BLACK,data)
+		
+		print(data)
+		
+		if inputSize == 512:
+			var j = i*2.0
+			if j == 0:
+				j = 2
+			if j == 2:
+				j = 4
+			image.set_pixel(spectrogramCol,j - 2,color)
+			image.set_pixel(spectrogramCol,j - 1,color)
+		else:
+			image.set_pixel(spectrogramCol,i,color)
+	
+	
+	
+	texture.update(image)
+	
+	spectrogramCol += 1
+	if spectrogramCol >= textureRes.x:
+		spectrogramCol = 0
 	pass
