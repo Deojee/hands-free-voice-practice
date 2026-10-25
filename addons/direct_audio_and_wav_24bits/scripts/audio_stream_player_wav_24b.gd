@@ -30,6 +30,8 @@ func _process(_delta: float) -> void:
 
 ## Loads a 24-bit resource and begins playback from the start.
 func play_24bit(res: AudioStreamWAV24B) -> void:
+	
+	
 	if res == null or res.data.is_empty():
 		push_error("AudioStreamPlayerWav24B: Cannot play an empty or null resource.")
 		return
