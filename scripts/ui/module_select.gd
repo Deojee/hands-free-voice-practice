@@ -1,5 +1,7 @@
 extends Control
 
+var modules : Array[Module] = []
+
 func _ready() -> void:
 	
 	var module : Module = Module.new()
@@ -14,6 +16,16 @@ func _ready() -> void:
 		newStream.sound = audioStream
 		newStream.transcript = file
 		module.references.append(newStream)
+	
+	modules.append(module)
+	
+	#above is placeholder, below is somewhat final
+	
+	for m in modules:
+		var newDesc = preload(Constants.Paths.moduleDescElement).instantiate()
+		newDesc.setup(m)
+		$MarginContainer/VBoxContainer/VBoxContainer.add_child(newDesc)
+		print("Hey!")
 	
 	pass
 

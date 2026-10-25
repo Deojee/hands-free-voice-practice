@@ -6,7 +6,7 @@ func setup(module : Module):
 	$VBoxContainer/name.text = module.name
 	$VBoxContainer/clips.text = "Clips: " + str(module.getClipNum())
 	$VBoxContainer/length.text = str(module.getLength()) + " seconds"
-	
+	myModule = module
 	pass
 
 

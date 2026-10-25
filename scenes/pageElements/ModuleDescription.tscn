@@ -5,8 +5,11 @@
 
 [node name="ModuleDescription" type="MarginContainer" unique_id=1251765149]
 custom_minimum_size = Vector2(400, 500)
-offset_right = 400.0
-offset_bottom = 576.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_bmosb")
 theme_override_constants/margin_left = 5

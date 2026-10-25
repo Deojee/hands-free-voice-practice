@@ -50,10 +50,7 @@ autowrap_mode = 2
 layout_mode = 2
 text = "Main Menu"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer" unique_id=1539458902]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer" unique_id=118957565]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=118957565]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 50

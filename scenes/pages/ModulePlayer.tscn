@@ -2,6 +2,11 @@
 
 [ext_resource type="Theme" uid="uid://bleafm430jpqh" path="res://misc/defaultTheme.tres" id="1_xncx7"]
 [ext_resource type="Script" uid="uid://d1g28rgc4mqx0" path="res://scripts/ui/module_player.gd" id="2_dxaxs"]
+[ext_resource type="Script" uid="uid://dkex2g6fut6kl" path="res://addons/direct_audio_and_wav_24bits/scripts/direct_audio_input_recorder.gd" id="3_suf67"]
+[ext_resource type="Script" uid="uid://bqo5emomonmoe" path="res://addons/direct_audio_and_wav_24bits/scripts/audio_stream_player_wav_24b.gd" id="4_okpf5"]
+
+[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_2n7uv"]
+buffer_length = 0.1
 
 [node name="ModulePlayer" type="Control" unique_id=1761755607]
 layout_mode = 3
@@ -83,3 +88,16 @@ text = "Pause"
 [node name="next" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1440268019]
 layout_mode = 2
 text = "Skip"
+
+[node name="Recorder" type="Node" parent="." unique_id=751985827]
+script = ExtResource("3_suf67")
+metadata/_custom_type_script = "uid://dkex2g6fut6kl"
+
+[node name="recordingPlayback" type="AudioStreamPlayer" parent="." unique_id=1801945858]
+stream = SubResource("AudioStreamGenerator_2n7uv")
+script = ExtResource("4_okpf5")
+metadata/_custom_type_script = "uid://bqo5emomonmoe"
+
+[node name="referencePlayer" type="AudioStreamPlayer" parent="." unique_id=1471079841]
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/pause" to="." method="_on_pause_pressed"]
