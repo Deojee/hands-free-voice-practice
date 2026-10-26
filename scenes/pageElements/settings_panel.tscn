@@ -36,16 +36,39 @@ theme_override_constants/margin_bottom = 40
 layout_mode = 2
 theme_override_constants/separation = 20
 
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=949417711]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Settings"
+horizontal_alignment = 1
+autowrap_mode = 2
+
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer" unique_id=327037682]
 layout_mode = 2
 size_flags_vertical = 3
+horizontal_scroll_mode = 0
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer" unique_id=949417711]
-custom_minimum_size = Vector2(1, 0)
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer" unique_id=880866616]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Settings
-\"referenceVolume\" : referenceVolume,
+size_flags_horizontal = 3
+
+[node name="1" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" unique_id=2051686324]
+layout_mode = 2
+tooltip_text = "The volume of the audio clips played from the module"
+mouse_filter = 0
+text = "Reference Volume"
+
+[node name="SpinBox" type="SpinBox" parent="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" unique_id=42679194]
+layout_mode = 2
+size_flags_horizontal = 0
+min_value = 0.1
+value = 0.1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" unique_id=1260732652]
+layout_mode = 2
+text = "\"referenceVolume\" : referenceVolume,
 			\"recordingVolume\" : recordingVolume,
 			\"indicatorVolume\" : indicatorVolume,
 			\"secondsOfSilenceBeforeCutoff\" : secondsOfSilenceBeforeCutoff,
@@ -53,10 +76,4 @@ text = "Settings
 			\"recordingTimeMultiplier\" : recordingTimeMultiplier,
 			\"shortDelayLength\" : shortDelayLength,
 			\"longDelayLength\" : longDelayLength,"
-horizontal_alignment = 1
-autowrap_mode = 2
-
-[node name="SpinBox" type="SpinBox" parent="MarginContainer/VBoxContainer/ScrollContainer" unique_id=42679194]
-layout_mode = 2
-min_value = 0.1
-value = 0.1
+autowrap_mode = 3
