@@ -118,6 +118,22 @@ text = "Shuffle"
 layout_mode = 2
 text = "Settings"
 
+[node name="debug panel" type="ColorRect" parent="MarginContainer" unique_id=1393811194]
+layout_mode = 2
+color = Color(0.19973177, 0.19973174, 0.19973174, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/debug panel" unique_id=236096110]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="debugLabel" type="Label" parent="MarginContainer/debug panel/VBoxContainer" unique_id=1433120278]
+layout_mode = 2
+text = "Mix Rate"
+
 [node name="Recorder" type="Node" parent="." unique_id=751985827]
 script = ExtResource("3_suf67")
 metadata/_custom_type_script = "uid://dkex2g6fut6kl"

@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://bqo5emomonmoe" path="res://addons/direct_audio_and_wav_24bits/scripts/audio_stream_player_wav_24b.gd" id="3_xvvcp"]
 [ext_resource type="Texture2D" uid="uid://bk81ea8rfw1bn" path="res://icon.svg" id="4_hh5oj"]
 
-[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_t45w4"]
+[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_h5ip5"]
 buffer_length = 0.1
 
 [sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_h05ir"]
@@ -52,7 +52,7 @@ text = "stop
 "
 
 [node name="AudioStreamPlayerWav24B" type="AudioStreamPlayer" parent="." unique_id=286257025]
-stream = SubResource("AudioStreamGenerator_t45w4")
+stream = SubResource("AudioStreamGenerator_h5ip5")
 script = ExtResource("3_xvvcp")
 metadata/_custom_type_script = "uid://bqo5emomonmoe"
 

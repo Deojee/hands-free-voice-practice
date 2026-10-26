@@ -33,6 +33,10 @@ func _ready() -> void:
 var driveTween : Tween
 func _physics_process(delta: float) -> void:
 	
+	if Input.is_action_just_pressed("space"):
+		$"MarginContainer/debug panel".visible = !$"MarginContainer/debug panel".visible
+	updateDebugInfo(delta)
+	
 	if paused:
 		stoplight.color = Color.PURPLE
 		stoplightLabel.text = "Paused"
@@ -135,6 +139,16 @@ func _physics_process(delta: float) -> void:
 		
 	
 	
+	
+
+func updateDebugInfo(delta):
+	var label = $"MarginContainer/debug panel/VBoxContainer/debugLabel"
+	
+	var text = str(AudioServer.get_mix_rate()) + "\n"
+	text += "delta: " + str(delta) + "\n"
+	text += "fps: " + str(1.0/delta) + "\n"
+	
+	label.text = text
 	
 
 func tweenAppendSound(tween : Tween, audioStream : AudioStream,volume : float,delay : float):
