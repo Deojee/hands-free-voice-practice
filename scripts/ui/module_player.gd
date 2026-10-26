@@ -13,14 +13,18 @@ var paused : bool = false
 
 @export var startSpeakingSound : AudioStream
 @export var stopSpeakingSound : AudioStream
+@export var referenceSound : AudioStream
 
 @onready var stoplight : ColorRect = $MarginContainer/VBoxContainer/stoplight
 @onready var stoplightLabel : Label = $MarginContainer/VBoxContainer/stoplight/Label
 
 func _ready() -> void:
+	
+	Globals.Settings.loadSettings()
+	
 	module = Globals.currentModule
 	
-	recorder.secondsOfSilenceBeforeShutoff = 2.0
+	recorder.secondsOfSilenceBeforeShutoff = 1.0
 	recorder.minimumVolumeToRecord = -30
 	
 	pass
@@ -30,8 +34,8 @@ var timer : float = 0.0
 var timeMultiplier = 2.0
 
 #slows down the loop so it's not so compact
-const DELAY_DURATION = 0.2
-const LONG_DELAY_DURATION = 2.0
+var DELAY_DURATION = 0.2
+var LONG_DELAY_DURATION = 1.0
 
 var driveTween : Tween
 func _physics_process(delta: float) -> void:
@@ -73,19 +77,25 @@ func _physics_process(delta: float) -> void:
 		
 		
 		var currentClip : ReferenceClip = module.references[clipNum]
+		currentClip.getAudioStream()
+		var sound = currentClip.sound
 		var currentClipLength : float = currentClip.getLength()
+		currentClip.clearAudioStream() #garbage collection
 		
+		
+		print(clipNum)
 		updateClipNumLabel()
+		
 		clipNum += 1
 		if clipNum >= module.getClipNum():
 			clipNum = 0
 		
 		driveTween = create_tween()
-		driveTween.tween_property(defaultPlayer,"stream",stopSpeakingSound,0.0)
+		driveTween.tween_property(defaultPlayer,"stream",referenceSound,0.0)
 		driveTween.tween_callback(defaultPlayer.play)
 		driveTween.tween_await(defaultPlayer.finished)
 		
-		driveTween.tween_property(defaultPlayer,"stream",currentClip.sound,0.0).set_delay(DELAY_DURATION)
+		driveTween.tween_property(defaultPlayer,"stream",sound,0.0).set_delay(DELAY_DURATION)
 		driveTween.tween_callback(defaultPlayer.play)
 		driveTween.tween_await(defaultPlayer.finished)
 		
@@ -123,7 +133,7 @@ func updateClipNumLabel():
 	var currentClip : ReferenceClip = module.references[clipNum]
 	var currentClipLength : float = currentClip.getLength()
 	
-	$"MarginContainer/VBoxContainer/clip number".text = str(clipNum) + "/" + str(module.getClipNum())
+	$"MarginContainer/VBoxContainer/clip number".text = str(clipNum + 1) + "/" + str(module.getClipNum())
 	$MarginContainer/VBoxContainer/transcript.text = currentClip.transcript
 
 func stopEverything():
@@ -147,9 +157,9 @@ func _on_pause_pressed() -> void:
 	
 	if paused:
 		stopEverything()
-		#clipNum -= 1
-		#if clipNum < -1:
-		#	clipNum = 0
+		clipNum -= 1 #undoing the increment of clip num
+		if clipNum < -1:
+			clipNum = 0
 		%pause.text = "Unpause"
 	else:
 		
@@ -166,14 +176,23 @@ func _on_module_select_pressed() -> void:
 func _on_prev_pressed() -> void:
 	stopEverything()
 	
-	clipNum -= 1 #clipnum is immediately increased by the main loop
+	clipNum -= 2 #clipnum is immediately increased by the main loop
 	if clipNum < 0:
-		clipNum = 0
+		clipNum = module.getClipNum() - 1
 	
 
 
 func _on_next_pressed() -> void:
+	#prints("next pressed!",clipNum)
 	stopEverything()
-	clipNum += 1
+	#clipNum += 1
 	if clipNum >= module.getClipNum():
 		clipNum = 0
+
+
+func _on_shuffle_pressed() -> void:
+	module.references.shuffle()
+
+
+func _on_settings_pressed() -> void:
+	pass # Replace with function body.

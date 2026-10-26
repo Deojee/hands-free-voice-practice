@@ -8,3 +8,5 @@ class Paths:
 	
 	const moduleDescElement : String = "res://scenes/pageElements/ModuleDescription.tscn"
 	
+	const LJAudioSubsetPath : String = "res://LJ audio clips/LJ audio subset - unknown album/"
+	

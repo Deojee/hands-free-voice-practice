@@ -1,33 +1,61 @@
 [gd_resource type="Theme" format=3 uid="uid://bleafm430jpqh"]
 
-[sub_resource type="FontFile" id="FontFile_7wv7s"]
-cache/0/variation_coordinates = {}
-cache/0/face_index = 0
-cache/0/embolden = 0.0
-cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
-cache/0/spacing_top = 0
-cache/0/spacing_bottom = 0
-cache/0/spacing_space = 0
-cache/0/spacing_glyph = 0
-cache/0/baseline_offset = 0.0
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/80/0/ascent = 0.0
-cache/0/80/0/descent = 0.0
-cache/0/80/0/underline_position = 0.0
-cache/0/80/0/underline_thickness = 0.0
-cache/0/80/0/scale = 1.0
-cache/0/60/0/ascent = 0.0
-cache/0/60/0/descent = 0.0
-cache/0/60/0/underline_position = 0.0
-cache/0/60/0/underline_thickness = 0.0
-cache/0/60/0/scale = 1.0
+[sub_resource type="SystemFont" id="SystemFont_bhst0"]
+
+[sub_resource type="DPITexture" id="DPITexture_xsivj"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"8\"><path fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" d=\"m12 2-4 3.5L4 2\"/></svg>
+"
+base_scale = 5.0
+
+[sub_resource type="DPITexture" id="DPITexture_alcol"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"8\"><path fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" d=\"m12 2-4 3.5L4 2\"/></svg>
+"
+base_scale = 5.0
+
+[sub_resource type="DPITexture" id="DPITexture_gm464"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"8\"><path fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" d=\"m12 2-4 3.5L4 2\"/></svg>
+"
+base_scale = 5.0
+
+[sub_resource type="DPITexture" id="DPITexture_gpg3e"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"8\"><path fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" d=\"m12 2-4 3.5L4 2\"/></svg>
+"
+base_scale = 5.0
+
+[sub_resource type="DPITexture" id="DPITexture_i4vtg"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"8\"><path fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" d=\"m4 6 4-3.5L12 6\"/></svg>
+"
+base_scale = 5.0
+
+[sub_resource type="DPITexture" id="DPITexture_gu1bo"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"8\"><path fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" d=\"m4 6 4-3.5L12 6\"/></svg>
+"
+base_scale = 5.0
+
+[sub_resource type="DPITexture" id="DPITexture_twnd5"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"8\"><path fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" d=\"m4 6 4-3.5L12 6\"/></svg>
+"
+base_scale = 5.0
+
+[sub_resource type="DPITexture" id="DPITexture_f4pok"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"8\"><path fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" d=\"m4 6 4-3.5L12 6\"/></svg>
+"
+base_scale = 5.0
+
+[sub_resource type="ImageTexture" id="ImageTexture_uaecm"]
 
 [resource]
-default_font = SubResource("FontFile_7wv7s")
+default_font = SubResource("SystemFont_bhst0")
 default_font_size = 80
 Label/font_sizes/font_size = 80
-Label/fonts/font = SubResource("FontFile_7wv7s")
+Label/fonts/font = SubResource("SystemFont_bhst0")
+SpinBox/constants/buttons_width = 60
+SpinBox/icons/down = SubResource("DPITexture_xsivj")
+SpinBox/icons/down_disabled = SubResource("DPITexture_alcol")
+SpinBox/icons/down_hover = SubResource("DPITexture_gm464")
+SpinBox/icons/down_pressed = SubResource("DPITexture_gpg3e")
+SpinBox/icons/up = SubResource("DPITexture_i4vtg")
+SpinBox/icons/up_disabled = SubResource("DPITexture_gu1bo")
+SpinBox/icons/up_hover = SubResource("DPITexture_twnd5")
+SpinBox/icons/up_pressed = SubResource("DPITexture_f4pok")
+SpinBox/icons/updown = SubResource("ImageTexture_uaecm")

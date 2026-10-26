@@ -20,7 +20,7 @@ var secondsSinceReachingMinimumVolume : float = 0
 var secondsOfSilenceBeforeShutoff : float = 2.0
 var sizeToTrimSilence : int = 0.0
 #time after silence starts that it still records
-var silenceCoyoteTime : float = 0.1
+var silenceCoyoteTime : float = 0.15
 
 #maximum recording time before calling stop capturing
 #includes silence

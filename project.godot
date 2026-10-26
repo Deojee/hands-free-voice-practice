@@ -11,12 +11,13 @@ config_version=5
 [application]
 
 config/name="Hands Free Voice Practice"
-run/main_scene="uid://bh0gghfe20jlk"
+run/main_scene="uid://b00qxna8loait"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [audio]
 
+driver/output_latency.web=100
 driver/enable_input=true
 
 [display]
@@ -43,3 +44,4 @@ limits/debugger/max_chars_per_second=3276800
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b0ba1be0enkoe"
+path="res://.godot/imported/00 - LJ audio subset - LJ010-0118.mp3-0a59c171a7d7c04353fdbc38a6d49d9f.mp3str"
+
+[deps]
+
+source_file="res://LJ audio clips/LJ audio subset - unknown album/00 - LJ audio subset - LJ010-0118.mp3"
+dest_files=["res://.godot/imported/00 - LJ audio subset - LJ010-0118.mp3-0a59c171a7d7c04353fdbc38a6d49d9f.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

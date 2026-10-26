@@ -6,8 +6,9 @@
 [ext_resource type="Script" uid="uid://452277d1ihr" path="res://scripts/volumeAwareRecorder.gd" id="3_suf67"]
 [ext_resource type="AudioStream" uid="uid://cvnq3fa1qokce" path="res://misc/stopTalking.wav" id="4_e361d"]
 [ext_resource type="Script" uid="uid://bqo5emomonmoe" path="res://addons/direct_audio_and_wav_24bits/scripts/audio_stream_player_wav_24b.gd" id="4_okpf5"]
+[ext_resource type="AudioStream" uid="uid://e5w8b26p65if" path="res://misc/referenceSound.wav" id="5_e361d"]
 
-[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_aqsl4"]
+[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_e361d"]
 buffer_length = 0.1
 
 [node name="ModulePlayer" type="Control" unique_id=1761755607]
@@ -21,6 +22,7 @@ theme = ExtResource("1_xncx7")
 script = ExtResource("2_dxaxs")
 startSpeakingSound = ExtResource("3_2n7uv")
 stopSpeakingSound = ExtResource("4_e361d")
+referenceSound = ExtResource("5_e361d")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=903829959]
 layout_mode = 1
@@ -29,7 +31,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.62763536, 0.62763536, 0.62763536, 1)
+color = Color(0.19492182, 0.49330103, 0.6944044, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=561149531]
 layout_mode = 1
@@ -45,6 +47,7 @@ theme_override_constants/margin_bottom = 40
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=776783352]
 layout_mode = 2
+theme_override_constants/separation = 20
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=949417711]
 custom_minimum_size = Vector2(1, 0)
@@ -82,9 +85,11 @@ vertical_alignment = 1
 
 [node name="transcript" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1324727424]
 layout_mode = 2
-text = "these are the words that the text is currently speaking gjdfslkgjdfksljgfdlksjgkldfsjglkjdsgjlkdsfgjdfsk"
+size_flags_vertical = 3
+text = "these are the words that the text is currently speaking gjdfslkgjdfksljgfdlksjgkldfsjglkjdsgjlkdsfgjdfsk word word word word newword newword"
 horizontal_alignment = 1
 autowrap_mode = 3
+text_overrun_behavior = 4
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1938131000]
 layout_mode = 2
@@ -105,12 +110,20 @@ text = "Pause"
 layout_mode = 2
 text = "Skip"
 
+[node name="shuffle" type="Button" parent="MarginContainer/VBoxContainer" unique_id=2012016036]
+layout_mode = 2
+text = "Shuffle"
+
+[node name="settings" type="Button" parent="MarginContainer/VBoxContainer" unique_id=341920439]
+layout_mode = 2
+text = "Settings"
+
 [node name="Recorder" type="Node" parent="." unique_id=751985827]
 script = ExtResource("3_suf67")
 metadata/_custom_type_script = "uid://dkex2g6fut6kl"
 
 [node name="recordingPlayback" type="AudioStreamPlayer" parent="." unique_id=1801945858]
-stream = SubResource("AudioStreamGenerator_aqsl4")
+stream = SubResource("AudioStreamGenerator_e361d")
 script = ExtResource("4_okpf5")
 metadata/_custom_type_script = "uid://bqo5emomonmoe"
 
@@ -120,3 +133,5 @@ metadata/_custom_type_script = "uid://bqo5emomonmoe"
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/prev" to="." method="_on_prev_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/pause" to="." method="_on_pause_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/next" to="." method="_on_next_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/shuffle" to="." method="_on_shuffle_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/settings" to="." method="_on_settings_pressed"]

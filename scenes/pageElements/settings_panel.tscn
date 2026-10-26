@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://b4q65g46pmxeq"]
+
+[ext_resource type="Theme" uid="uid://bleafm430jpqh" path="res://misc/defaultTheme.tres" id="1_qbhdr"]
+
+[node name="settingsPanel" type="Control" unique_id=1761755607]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_qbhdr")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=903829959]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.19492182, 0.49330103, 0.6944044, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=561149531]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=776783352]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer" unique_id=327037682]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer" unique_id=949417711]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Settings
+\"referenceVolume\" : referenceVolume,
+			\"recordingVolume\" : recordingVolume,
+			\"indicatorVolume\" : indicatorVolume,
+			\"secondsOfSilenceBeforeCutoff\" : secondsOfSilenceBeforeCutoff,
+			\"minVolumeToRecord\" : minVolumeToRecord,
+			\"recordingTimeMultiplier\" : recordingTimeMultiplier,
+			\"shortDelayLength\" : shortDelayLength,
+			\"longDelayLength\" : longDelayLength,"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="SpinBox" type="SpinBox" parent="MarginContainer/VBoxContainer/ScrollContainer" unique_id=42679194]
+layout_mode = 2
+min_value = 0.1
+value = 0.1
