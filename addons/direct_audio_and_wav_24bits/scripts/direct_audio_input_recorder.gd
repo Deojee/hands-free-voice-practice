@@ -53,8 +53,11 @@ signal on_input_frame_captured(last_input_frames: PackedVector2Array, delta: flo
 func _ready() -> void:
 	# Enable the microphone input in the Godot AudioServer
 	AudioServer.set_input_device_active(true)
+	print(AudioServer.get_input_mix_rate())
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	if Engine.get_physics_frames() % 5 != 0:
+		return
 	# Fetch the available frames from the microphone buffer
 	_last_audio_samples = AudioServer.get_input_frames(AudioServer.get_input_frames_available())
 	on_input_frame_captured.emit(_last_audio_samples, delta)

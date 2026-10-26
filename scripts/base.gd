@@ -45,6 +45,7 @@ func _on_stop_pressed() -> void:
 
 var LLargest = 0
 var SSmallest = 10
+var inputSum = 0
 func _on_direct_audio_input_recorder_on_input_frame_captured(last_input_frames: PackedVector2Array, delta: float) -> void:
 	#print("chunk:", last_input_frames.size())
 	#print(last_input_frames)
@@ -64,8 +65,14 @@ func _on_direct_audio_input_recorder_on_input_frame_captured(last_input_frames: 
 		#SSmallest = smallest
 	#prints("LL",LLargest,"SS",SSmallest)
 	
+	
+	
 	var inputSize = last_input_frames.size()
 	print(inputSize)
+	inputSum += inputSize
+	prints(inputSum,Time.get_ticks_msec()/1000.0)
+	
+	return
 	
 	if inputSize == 0:
 		return

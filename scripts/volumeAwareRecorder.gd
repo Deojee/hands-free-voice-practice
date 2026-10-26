@@ -32,8 +32,11 @@ var recordingTimer : float = 0.0
 func _ready() -> void:
 	# Enable the microphone input in the Godot AudioServer
 	AudioServer.set_input_device_active(true)
+	
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	
+	
 	
 	if !_is_recording:
 		return
@@ -44,6 +47,7 @@ func _process(delta: float) -> void:
 	
 	recordingTimer += delta
 	
+	print(_last_audio_samples.size())
 	
 	var volume : float = _get_peak_volume_db(_last_audio_samples).x
 	if volume > minimumVolumeToRecord:

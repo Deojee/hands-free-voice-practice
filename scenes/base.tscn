@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://bqo5emomonmoe" path="res://addons/direct_audio_and_wav_24bits/scripts/audio_stream_player_wav_24b.gd" id="3_xvvcp"]
 [ext_resource type="Texture2D" uid="uid://bk81ea8rfw1bn" path="res://icon.svg" id="4_hh5oj"]
 
-[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_vqfsp"]
+[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_t45w4"]
 buffer_length = 0.1
 
 [sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_h05ir"]
@@ -18,6 +18,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_h5ip5")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1626720314]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = -772.0
+offset_bottom = 128.0
+grow_horizontal = 2
+texture = ExtResource("4_hh5oj")
 
 [node name="DirectAudioInputRecorder" type="Node" parent="." unique_id=1620349023]
 script = ExtResource("2_40w10")
@@ -43,20 +52,12 @@ text = "stop
 "
 
 [node name="AudioStreamPlayerWav24B" type="AudioStreamPlayer" parent="." unique_id=286257025]
-stream = SubResource("AudioStreamGenerator_vqfsp")
+stream = SubResource("AudioStreamGenerator_t45w4")
 script = ExtResource("3_xvvcp")
 metadata/_custom_type_script = "uid://bqo5emomonmoe"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=2044638723]
 stream = SubResource("AudioStreamInteractive_h05ir")
-
-[node name="TextureRect" type="TextureRect" parent="." unique_id=1626720314]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 101.0
-grow_horizontal = 2
-texture = ExtResource("4_hh5oj")
 
 [connection signal="on_input_frame_captured" from="DirectAudioInputRecorder" to="." method="_on_direct_audio_input_recorder_on_input_frame_captured"]
 [connection signal="pressed" from="record" to="." method="_on_record_pressed"]

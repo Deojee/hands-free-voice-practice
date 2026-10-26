@@ -13,10 +13,13 @@ config_version=5
 config/name="Hands Free Voice Practice"
 run/main_scene="uid://b00qxna8loait"
 config/features=PackedStringArray("4.7", "GL Compatibility")
+run/max_fps=90
 config/icon="res://icon.svg"
 
 [audio]
 
+buses/default_bus_layout="uid://clqrrvdgulsid"
+driver/output_latency=50
 driver/enable_input=true
 
 [display]
