@@ -78,7 +78,7 @@ func _physics_process(delta: float) -> void:
 		currentClip.clearAudioStream() #garbage collection
 		
 		
-		print(clipNum)
+		#print(clipNum)
 		updateClipNumLabel()
 		
 		clipNum += 1

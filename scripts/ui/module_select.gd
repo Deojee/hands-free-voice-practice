@@ -29,7 +29,7 @@ func _ready() -> void:
 		var files = ResourceLoader.list_directory(Constants.Paths.LJAudioSubsetPath)
 		
 		for file_name in files:
-			print("Found file: ", file_name)
+			#print("Found file: ", file_name)
 			if file_name.ends_with(".import"):
 				continue
 			var newStream = ReferenceClip.new()
@@ -46,7 +46,7 @@ func _ready() -> void:
 		var newDesc = preload(Constants.Paths.moduleDescElement).instantiate()
 		newDesc.setup(m)
 		$MarginContainer/VBoxContainer/VBoxContainer.add_child(newDesc)
-		print("Hey!")
+		#print("Hey!")
 	
 	pass
 
