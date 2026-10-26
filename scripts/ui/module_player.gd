@@ -13,7 +13,7 @@ var paused : bool = false
 
 @export var startSpeakingSound : AudioStream
 @export var stopSpeakingSound : AudioStream
-@export var referenceSound : AudioStream
+@export var referenceSpeakingSound : AudioStream
 
 @onready var stoplight : ColorRect = $MarginContainer/VBoxContainer/stoplight
 @onready var stoplightLabel : Label = $MarginContainer/VBoxContainer/stoplight/Label
@@ -24,18 +24,11 @@ func _ready() -> void:
 	
 	module = Globals.currentModule
 	
-	recorder.secondsOfSilenceBeforeShutoff = 1.0
-	recorder.minimumVolumeToRecord = -30
+	
 	
 	pass
 
-var timer : float = 0.0
-#the amount of time you have to repeat the phrase compared to original duration
-var timeMultiplier = 2.0
 
-#slows down the loop so it's not so compact
-var DELAY_DURATION = 0.2
-var LONG_DELAY_DURATION = 1.0
 
 var driveTween : Tween
 func _physics_process(delta: float) -> void:
@@ -74,7 +67,9 @@ func _physics_process(delta: float) -> void:
 		
 		
 		
+		recorder.secondsOfSilenceBeforeShutoff = Globals.Settings.secondsOfSilenceBeforeCutoff
 		
+		recorder.minimumVolumeToRecord = Globals.Settings.minVolumeToRecord
 		
 		var currentClip : ReferenceClip = module.references[clipNum]
 		currentClip.getAudioStream()
@@ -91,39 +86,62 @@ func _physics_process(delta: float) -> void:
 			clipNum = 0
 		
 		driveTween = create_tween()
-		driveTween.tween_property(defaultPlayer,"stream",referenceSound,0.0)
-		driveTween.tween_callback(defaultPlayer.play)
-		driveTween.tween_await(defaultPlayer.finished)
 		
-		driveTween.tween_property(defaultPlayer,"stream",sound,0.0).set_delay(DELAY_DURATION)
-		driveTween.tween_callback(defaultPlayer.play)
-		driveTween.tween_await(defaultPlayer.finished)
 		
-		driveTween.tween_property(defaultPlayer,"stream",startSpeakingSound,0.0).set_delay(DELAY_DURATION)
-		driveTween.tween_callback(defaultPlayer.play)
-		driveTween.tween_await(defaultPlayer.finished)
+		tweenAppendSound(
+			driveTween,
+			referenceSpeakingSound,
+			Globals.Settings.indicatorVolume,
+			0.0 #no delay on start of loop
+			)
+		
+		
+		
+		tweenAppendSound(
+			driveTween,
+			sound,
+			Globals.Settings.referenceVolume,
+			Globals.Settings.shortDelayLength
+			)
+		
+		
+		tweenAppendSound(
+			driveTween,
+			startSpeakingSound,
+			Globals.Settings.indicatorVolume,
+			Globals.Settings.shortDelayLength
+			)
 		
 		driveTween.tween_property(
 			recorder,
 			"forceShutoffTime",
-			currentClipLength * timeMultiplier,
-			0.0).set_delay(DELAY_DURATION)
-		driveTween.tween_callback(recorder.start_capturing).set_delay(DELAY_DURATION) #this delay prevents it hearing itself
+			currentClipLength * Globals.Settings.recordingTimeMultiplier,
+			0.0).set_delay(Globals.Settings.shortDelayLength)
+		driveTween.tween_callback(recorder.start_capturing).set_delay(Globals.Settings.shortDelayLength) #this delay prevents it hearing itself
 		driveTween.tween_await(recorder.on_recording_end)
 		
-		driveTween.tween_property(defaultPlayer,"stream",stopSpeakingSound,0.0).set_delay(DELAY_DURATION)
-		driveTween.tween_callback(defaultPlayer.play)
-		driveTween.tween_await(defaultPlayer.finished)
 		
+		tweenAppendSound(
+			driveTween,
+			stopSpeakingSound,
+			Globals.Settings.indicatorVolume,
+			Globals.Settings.shortDelayLength
+		)
 		
-		driveTween.tween_callback(self.playBackRecording).set_delay(DELAY_DURATION)
-		
+		driveTween.tween_property(recorderPlayback,"volume_linear",Globals.Settings.recordingVolume,0.0)
+		driveTween.tween_callback(self.playBackRecording).set_delay(Globals.Settings.shortDelayLength)
 		driveTween.tween_await(recorderPlayback.finished)
-		driveTween.tween_callback(self.foo).set_delay(LONG_DELAY_DURATION)
+		driveTween.tween_callback(self.foo).set_delay(Globals.Settings.longDelayLength)
 		
 	
 	
 	
+
+func tweenAppendSound(tween : Tween, audioStream : AudioStream,volume : float,delay : float):
+	tween.tween_property(defaultPlayer,"volume_linear",volume,0.0)
+	tween.tween_property(defaultPlayer,"stream",audioStream,0.0).set_delay(delay)
+	tween.tween_callback(defaultPlayer.play)
+	tween.tween_await(defaultPlayer.finished)
 
 func foo():
 	pass

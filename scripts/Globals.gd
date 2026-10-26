@@ -9,9 +9,9 @@ class Settings:
 	
 	#volume, playback volume, indicator sound volume, silenceBeforeCutoff record cutoff multiplier, delay after recording playback, ambient noise, 
 	
-	static var referenceVolume : float = 0 #0 being not changing it
-	static var recordingVolume : float = 0
-	static var indicatorVolume : float = 0 #the volume of the helpful sounds
+	static var referenceVolume : float = 5 #0 being not changing it
+	static var recordingVolume : float = 5
+	static var indicatorVolume : float = 5 #the volume of the helpful sounds
 	
 	static var secondsOfSilenceBeforeCutoff : float = 1.0
 	static var minVolumeToRecord : float = -30
