@@ -24,7 +24,7 @@ func _ready() -> void:
 	if true:
 		var module : Module = Module.new()
 		
-		module.name = "LJ Cis Fem 1000"
+		module.name = "LJ Cis Fem 400"
 		
 		var files = ResourceLoader.list_directory(Constants.Paths.LJAudioSubsetPath)
 		

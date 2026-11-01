@@ -118,8 +118,14 @@ text = "Shuffle"
 layout_mode = 2
 text = "Settings"
 
-[node name="debug panel" type="ColorRect" parent="MarginContainer" unique_id=1393811194]
+[node name="debug" type="Button" parent="MarginContainer/VBoxContainer" unique_id=2108596415]
 layout_mode = 2
+text = "debug"
+
+[node name="debug panel" type="ColorRect" parent="MarginContainer" unique_id=1393811194]
+visible = false
+layout_mode = 2
+mouse_filter = 2
 color = Color(0.19973177, 0.19973174, 0.19973174, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/debug panel" unique_id=236096110]
@@ -129,6 +135,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="debugClose" type="Button" parent="MarginContainer/debug panel/VBoxContainer" unique_id=2015847851]
+layout_mode = 2
+text = "close"
 
 [node name="debugLabel" type="Label" parent="MarginContainer/debug panel/VBoxContainer" unique_id=1433120278]
 layout_mode = 2
@@ -151,3 +161,5 @@ metadata/_custom_type_script = "uid://bqo5emomonmoe"
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/next" to="." method="_on_next_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/shuffle" to="." method="_on_shuffle_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/debug" to="." method="_on_debug_pressed"]
+[connection signal="pressed" from="MarginContainer/debug panel/VBoxContainer/debugClose" to="." method="_on_debug_close_pressed"]

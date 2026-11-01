@@ -4,6 +4,7 @@ class_name Globals
 
 static var currentModule : Module
 
+static var lastRecordingSize : int
 
 class Settings:
 	

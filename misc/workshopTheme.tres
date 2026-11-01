@@ -1,0 +1,6 @@
+[gd_resource type="Theme" format=3 uid="uid://btwiu4wcysj7n"]
+
+[sub_resource type="SystemFont" id="SystemFont_2eh37"]
+
+[resource]
+default_font = SubResource("SystemFont_2eh37")

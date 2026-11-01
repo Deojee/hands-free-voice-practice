@@ -1,0 +1,222 @@
+[gd_scene format=3 uid="uid://18krfokxcd40"]
+
+[ext_resource type="Theme" uid="uid://btwiu4wcysj7n" path="res://misc/workshopTheme.tres" id="1_itoth"]
+[ext_resource type="Script" uid="uid://dsnxtg51fgkk0" path="res://scripts/ui/module_workshop.gd" id="2_w2skn"]
+
+[node name="module workshop" type="Control" unique_id=1647625305]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 2.0
+offset_bottom = -1417.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_itoth")
+script = ExtResource("2_w2skn")
+
+[node name="FileDialog" type="FileDialog" parent="." unique_id=149539452]
+unique_name_in_owner = true
+title = "Open a File"
+file_mode = 0
+
+[node name="Node" type="Node2D" parent="." unique_id=161087901]
+position = Vector2(-528, 91)
+
+[node name="TranscriptButton" type="Button" parent="Node" unique_id=276334506]
+offset_right = 100.0
+offset_bottom = 40.0
+size_flags_horizontal = 3
+text = "
+"
+
+[node name="Label" type="Label" parent="Node/TranscriptButton" unique_id=1280317209]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+text = "No Transcript"
+vertical_alignment = 1
+clip_text = true
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1583673791]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.34117648, 0.50980395, 0.76862746, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1538570275]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1214484091]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer" unique_id=968176628]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/Panel" unique_id=71030291]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer" unique_id=2024513435]
+layout_mode = 2
+
+[node name="referenceClipHolders" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer" unique_id=1558806446]
+layout_mode = 2
+
+[node name="temp" type="Button" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer/referenceClipHolders" unique_id=1927305656]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "
+"
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/ScrollContainer/referenceClipHolders/temp" unique_id=564601500]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+text = "No Transcript"
+vertical_alignment = 1
+clip_text = true
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer" unique_id=536798361]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="main menu" type="Button" parent="VBoxContainer/HBoxContainer/Control" unique_id=1340819093]
+layout_mode = 0
+offset_right = 36.0
+offset_bottom = 31.0
+text = "main menu"
+
+[node name="Panel" type="Panel" parent="VBoxContainer" unique_id=1227424115]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel" unique_id=839612190]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/Panel/MarginContainer" unique_id=1001722757]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+theme_override_constants/separation = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer2" unique_id=959036673]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="transcript" type="Label" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer2/VBoxContainer" unique_id=364184315]
+layout_mode = 2
+text = "Transcript:"
+
+[node name="transcriptEdit" type="TextEdit" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer2/VBoxContainer" unique_id=1505403643]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "transcript goes here"
+wrap_mode = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer2" unique_id=1597776296]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Record" type="Label" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer2/VBoxContainer2" unique_id=907197974]
+layout_mode = 2
+text = "Record:"
+
+[node name="Panel" type="Panel" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer2/VBoxContainer2" unique_id=1447506137]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer2/VBoxContainer2/Panel" unique_id=1745279844]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 7
+theme_override_constants/margin_bottom = 7
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer2/VBoxContainer2/Panel/MarginContainer" unique_id=868657060]
+layout_mode = 2
+
+[node name="recordButton" type="Button" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer2/VBoxContainer2/Panel/MarginContainer/VBoxContainer" unique_id=1415632607]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Record"
+
+[node name="playButton" type="Button" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer2/VBoxContainer2/Panel/MarginContainer/VBoxContainer" unique_id=494456164]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Play
+"
+
+[node name="Label" type="Label" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer2/VBoxContainer2/Panel/MarginContainer/VBoxContainer" unique_id=814218215]
+layout_mode = 2
+text = "load"
+
+[node name="loadFile" type="Button" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer2/VBoxContainer2/Panel/MarginContainer/VBoxContainer" unique_id=679249977]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Load file
+"
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer2" unique_id=457783397]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="settings" type="Label" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer2/VBoxContainer3" unique_id=621119709]
+layout_mode = 2
+text = "Various settings"
+
+[node name="repeatableButton" type="CheckButton" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer2/VBoxContainer3" unique_id=1137016141]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Tell listener to repeat"
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Control/main menu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="VBoxContainer/Panel/MarginContainer/HBoxContainer2/VBoxContainer2/Panel/MarginContainer/VBoxContainer/loadFile" to="." method="_on_load_file_pressed"]

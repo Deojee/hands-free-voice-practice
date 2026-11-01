@@ -33,7 +33,7 @@ func _ready() -> void:
 var driveTween : Tween
 func _physics_process(delta: float) -> void:
 	
-	if Input.is_action_just_pressed("space"):
+	if Input.is_action_just_pressed("d"):
 		$"MarginContainer/debug panel".visible = !$"MarginContainer/debug panel".visible
 	updateDebugInfo(delta)
 	
@@ -145,8 +145,10 @@ func updateDebugInfo(delta):
 	var label = $"MarginContainer/debug panel/VBoxContainer/debugLabel"
 	
 	var text = str(AudioServer.get_mix_rate()) + "\n"
+	text += str(AudioServer.get_input_mix_rate()) + "\n"
 	text += "delta: " + str(delta) + "\n"
 	text += "fps: " + str(1.0/delta) + "\n"
+	text += "last recording size: " + str(Globals.lastRecordingSize) + "\n"
 	
 	label.text = text
 	
@@ -227,4 +229,15 @@ func _on_shuffle_pressed() -> void:
 
 
 func _on_settings_pressed() -> void:
+	
+	pass # Replace with function body.
+
+
+func _on_debug_close_pressed() -> void:
+	$"MarginContainer/debug panel".visible = false
+	pass # Replace with function body.
+
+
+func _on_debug_pressed() -> void:
+	$"MarginContainer/debug panel".visible = true
 	pass # Replace with function body.
