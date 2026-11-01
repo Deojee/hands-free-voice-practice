@@ -2,6 +2,7 @@ extends Resource
 class_name Module
 
 var name : String
+var description : String
 var references : Array[ReferenceClip]
 
 func getClipNum():

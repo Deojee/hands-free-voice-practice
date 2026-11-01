@@ -96,7 +96,6 @@ text = "Modules"
 
 [node name="module workshop" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1664668965]
 layout_mode = 2
-disabled = true
 text = "Module Workshop"
 
 [node name="settings" type="Button" parent="MarginContainer/VBoxContainer" unique_id=776159556]
@@ -111,4 +110,5 @@ text = "Quit
 "
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/modules" to="." method="_on_modules_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/module workshop" to="." method="_on_module_workshop_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/quit" to="." method="_on_quit_pressed"]
