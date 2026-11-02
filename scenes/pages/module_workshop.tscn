@@ -3,6 +3,7 @@
 [ext_resource type="Theme" uid="uid://btwiu4wcysj7n" path="res://misc/workshopTheme.tres" id="1_itoth"]
 [ext_resource type="Script" uid="uid://dsnxtg51fgkk0" path="res://scripts/ui/module_workshop.gd" id="2_w2skn"]
 [ext_resource type="Script" uid="uid://dkex2g6fut6kl" path="res://addons/direct_audio_and_wav_24bits/scripts/direct_audio_input_recorder.gd" id="3_fgsha"]
+[ext_resource type="Texture2D" uid="uid://day5r2f2u2tj3" path="res://misc/GodotNodeWarning.png" id="4_c6s6u"]
 
 [node name="module workshop" type="Control" unique_id=1647625305]
 layout_mode = 3
@@ -30,8 +31,8 @@ position = Vector2(-528, 91)
 [node name="TranscriptButton" type="Button" parent="Node" unique_id=276334506]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
-offset_right = 100.0
-offset_bottom = 40.0
+offset_right = 172.0
+offset_bottom = 41.0
 size_flags_horizontal = 3
 text = "
 "
@@ -47,6 +48,21 @@ mouse_filter = 1
 text = "No Transcript"
 vertical_alignment = 1
 clip_text = true
+
+[node name="warning label" type="BoxContainer" parent="Node/TranscriptButton" unique_id=878926734]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -44.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Node/TranscriptButton/warning label" unique_id=951847709]
+layout_mode = 2
+texture = ExtResource("4_c6s6u")
+expand_mode = 2
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1583673791]
 layout_mode = 1
@@ -91,7 +107,7 @@ theme_override_constants/margin_bottom = 5
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer" unique_id=1391328678]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer" unique_id=168253787]
+[node name="HBoxContainer" type="FlowContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer" unique_id=442600169]
 layout_mode = 2
 
 [node name="Add Clip" type="Button" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=771909255]
@@ -106,6 +122,14 @@ text = "Insert Clip"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Delete Clip"
+
+[node name="move up" type="Button" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1047357740]
+layout_mode = 2
+text = "Move up"
+
+[node name="move down" type="Button" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1940285502]
+layout_mode = 2
+text = "Move down"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer" unique_id=2024513435]
 layout_mode = 2
@@ -150,7 +174,6 @@ layout_mode = 2
 
 [node name="Save" type="Button" parent="VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer" unique_id=547817818]
 layout_mode = 2
-disabled = true
 text = "Save"
 
 [node name="Export" type="Button" parent="VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1927988597]
@@ -331,6 +354,8 @@ color = Color(0.84705883, 0.21960784, 0.21568628, 0.40392157)
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Add Clip" to="." method="_on_add_clip_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Insert New Clip" to="." method="_on_insert_new_clip_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Delete Clip" to="." method="_on_delete_clip_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/move up" to="." method="_on_move_up_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/move down" to="." method="_on_move_down_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/Save" to="." method="_on_save_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/Export" to="." method="_on_export_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/load" to="." method="_on_load_pressed"]

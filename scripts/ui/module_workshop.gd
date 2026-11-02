@@ -50,8 +50,12 @@ func updateTranscriptButtonList():
 		newButton.button_down.connect(changeWorkingReferenceClip.bind(r))
 		%referenceClipHolder.add_child(newButton)
 		
+		newButton.get_child(1).visible = r.audioStreamPath != null
+		
 		if i == pos:
 			newButton.modulate = Color.RED
+		elif r.noRepeat:
+			newButton.modulate = Color.MEDIUM_PURPLE
 		
 		i += 1
 		
@@ -78,7 +82,7 @@ func changeWorkingReferenceClip(newRefClip):
 	
 	%transcriptEdit.text = wr.transcript
 	%repeatableButton.button_pressed = !wr.noRepeat
-	_on_repeatable_button_toggled(true)
+	_on_repeatable_button_toggled(!wr.noRepeat)
 	%repeatNum.value = wr.numRepeat
 	
 	%"Delete Clip".disabled = false
@@ -161,13 +165,47 @@ func _on_delete_clip_pressed() -> void:
 
 func _on_load_pressed() -> void:
 	print("hey")
-	%FileDialog.popup()
+	var fd = %FileDialog
+	fd.clear_filename_filter()
+	fd.add_filter("*.mod")
+	fd.popup()
+	
+	
+	
+	
+	
 	pass # Replace with function body.
 
 
 func _on_export_pressed() -> void:
+	
+	var json = false
+	var exportPath : String = "user://lastExport.save"
+	
+	
+	
 	pass # Replace with function body.
 
 
 func _on_save_pressed() -> void:
 	pass # Replace with function body.
+
+
+func _on_move_up_pressed() -> void:
+	var pos = getCurrentClipIndex()
+	if pos == 0:
+		return
+	workingModule.references.erase(workingReferenceClip)
+	workingModule.references.insert(pos - 1,workingReferenceClip)
+	
+	updateTranscriptButtonList()
+
+
+func _on_move_down_pressed() -> void:
+	var pos = getCurrentClipIndex()
+	if pos == workingModule.references.size() - 1:
+		return
+	workingModule.references.erase(workingReferenceClip)
+	workingModule.references.insert(pos + 1,workingReferenceClip)
+	
+	updateTranscriptButtonList()
