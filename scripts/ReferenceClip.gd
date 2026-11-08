@@ -2,8 +2,11 @@ extends Resource
 class_name ReferenceClip
 
 var transcript : String
+
+
 var sound : AudioStream
 
+var audioStreamLocation : String = ""
 var audioStreamPath : String
 
 ## no repeat means that the program should not
@@ -11,8 +14,13 @@ var audioStreamPath : String
 var noRepeat : float = false
 var numRepeat : int = 1
 
+
 func getAudioStream():
-	sound = load(audioStreamPath)
+	sound = load(audioStreamLocation.path_join(audioStreamPath))
+
+#clears the audio stream from memory so it doesn't take up ram.
+func clearAudioStream():
+	sound = null
 
 
 func getLength() -> float:
@@ -20,6 +28,13 @@ func getLength() -> float:
 		return 0
 	return sound.get_length()
 
-#clears the audio stream from memory so it doesn't take up ram.
-func clearAudioStream():
-	sound = null
+func getDict():
+	
+	return {
+		"transcript" : transcript,
+		"audioStreamLocation" : audioStreamLocation,
+		"audioStreamPath" : audioStreamPath,
+		"noRepeat" : noRepeat,
+		"numRepeat" : numRepeat
+	}
+	

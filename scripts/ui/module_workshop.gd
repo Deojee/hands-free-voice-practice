@@ -12,6 +12,8 @@ var workingModule : Module
 var clips : Array[ReferenceClip]
 var workingReferenceClip : ReferenceClip
 
+
+
 #always increases when the debug label changes
 var debugNum = 0
 
@@ -36,6 +38,10 @@ func _on_main_menu_pressed() -> void:
 	get_tree().root.content_scale_factor = 1.0
 	get_tree().change_scene_to_file(Constants.Paths.mainMenu)
 
+const TRANSBUTTON_LABEL_INDEX = 0
+const TRANSBUTTON_NOSOUND_INDEX = 1
+const TRANSBUTTON_NOCALLBACK_INDEX = 2
+const TRANSBUTTON_REPITITIONS_INDEX = 3
 func updateTranscriptButtonList():
 	
 	var transButton = %TranscriptButton
@@ -48,12 +54,22 @@ func updateTranscriptButtonList():
 	for r in workingModule.references:
 		
 		var newButton : Button = %TranscriptButton.duplicate()
-		newButton.get_child(0).text = r.transcript.replace("\n","") if r.transcript != "" else "No transcript"
 		newButton.button_down.connect(changeWorkingReferenceClip.bind(r))
 		%referenceClipHolder.add_child(newButton)
 		
-		newButton.get_child(1).visible = r.sound == null
-		print(r.sound)
+		var hbox = newButton.get_child(0)
+		var transLabel : Label = hbox.get_child(TRANSBUTTON_LABEL_INDEX)
+		var nosoundWarning : TextureRect = hbox.get_child(TRANSBUTTON_NOSOUND_INDEX)
+		var noCallback : MarginContainer = hbox.get_child(TRANSBUTTON_NOCALLBACK_INDEX)
+		var repitionsLabel : Label = hbox.get_child(TRANSBUTTON_REPITITIONS_INDEX)
+		
+		
+		transLabel.text = r.transcript.replace("\n","") if r.transcript != "" else "No transcript"
+		nosoundWarning.visible = r.sound == null
+		noCallback.visible = r.noRepeat
+		
+		repitionsLabel.visible = r.numRepeat != 1
+		repitionsLabel.text = str(r.numRepeat)
 		
 		if i == pos:
 			newButton.modulate = Color.RED
@@ -138,6 +154,9 @@ func _on_record_button_pressed() -> void:
 	workingReferenceClip.sound = recording
 	updateTranscriptButtonList()
 	
+	if %autoplay.button_pressed:
+		_on_play_button_pressed()
+	
 
 ##plays the audio file associated with the current reference clip
 func _on_play_button_pressed() -> void:
@@ -147,8 +166,9 @@ func _on_play_button_pressed() -> void:
 		setDebugLabel("No reference clip sound!")
 	
 	print("playing the sound!")
-	audioPlayer.stream = workingReferenceClip.sound
-	audioPlayer.play()
+	if audioPlayer.stream != workingReferenceClip.sound:
+		audioPlayer.stream = workingReferenceClip.sound
+	audioPlayer.call_deferred("play")
 	pass # Replace with function body.
 
 
@@ -253,12 +273,34 @@ func _on_save_pressed() -> void:
 	#create the folder that we put everything in
 	#and then the sub folder that we put the audiofiles in
 	var error1 = DirAccess.make_dir_recursive_absolute(currentExportFolder)
-	var error2 = DirAccess.make_dir_recursive_absolute(audioFileFolderName)
+	var error2 = DirAccess.make_dir_recursive_absolute(currentExportAudioFilesFolder)
 	
 	#create the metadata file immediately in currentExportFolder
 	var metaDataFile = FileAccess.open(currentExportFolder.path_join(metaDataFileName), FileAccess.WRITE)
 	
-	
+	const audioFilePrefix : String = "audioClip"
+	var i : int = 0
+	for rc in workingModule.references:
+		rc = rc as ReferenceClip
+		if rc.sound == null:
+			continue
+		i += 1
+		
+		var audioFileName = audioFilePrefix + str(i) + ".wav"
+		var audioFileLocalPath = currentExportAudioFilesFolder.path_join(audioFileName)
+		
+		
+		rc.audioStreamLocation = ""
+		rc.audioStreamPath = audioFileLocalPath
+		
+		var json_string = JSON.stringify(rc.getDict())
+		# Store the save dictionary as a new line in the save file.
+		metaDataFile.store_line(json_string)
+		
+		var wavSound = rc.sound as AudioStreamWAV
+		wavSound.save_to_wav(audioFileLocalPath)
+		
+		pass
 	
 	pass # Replace with function body.
 

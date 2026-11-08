@@ -20,8 +20,23 @@ func _ready() -> void:
 	texture = ImageTexture.create_from_image(image)
 	spectrogram.texture = texture
 	
+	print("conecting")
+	
+	get_window().files_dropped.connect(on_files_dropped)
+	
+	
 	pass
 
+func on_files_dropped(arr):
+	
+	print("files dropped!")
+	print(arr)
+	
+	return
+	$filesTester.text = ""
+	for f in arr:
+		$filesTester.text += f + "\n"
+	
 
 func _physics_process(delta: float) -> void:
 	pass

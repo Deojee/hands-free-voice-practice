@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dsnxtg51fgkk0" path="res://scripts/ui/module_workshop.gd" id="2_w2skn"]
 [ext_resource type="Script" uid="uid://dkex2g6fut6kl" path="res://addons/direct_audio_and_wav_24bits/scripts/direct_audio_input_recorder.gd" id="3_fgsha"]
 [ext_resource type="Texture2D" uid="uid://day5r2f2u2tj3" path="res://misc/GodotNodeWarning.png" id="4_c6s6u"]
+[ext_resource type="Texture2D" uid="uid://cch0ijl1bdmf6" path="res://misc/noRepeatIcon.png" id="5_e4ibk"]
 
 [node name="module workshop" type="Control" unique_id=1647625305]
 layout_mode = 3
@@ -39,32 +40,42 @@ size_flags_horizontal = 3
 text = "
 "
 
-[node name="Label" type="Label" parent="Node/TranscriptButton" unique_id=1280317209]
+[node name="warning label" type="HBoxContainer" parent="Node/TranscriptButton" unique_id=1087299736]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="transcriptLabel" type="Label" parent="Node/TranscriptButton/warning label" unique_id=1280317209]
+layout_mode = 2
+size_flags_horizontal = 3
 mouse_filter = 1
 text = "No Transcript"
 vertical_alignment = 1
 clip_text = true
 
-[node name="warning label" type="BoxContainer" parent="Node/TranscriptButton" unique_id=878926734]
-layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -44.0
-grow_horizontal = 0
-grow_vertical = 2
-
-[node name="TextureRect" type="TextureRect" parent="Node/TranscriptButton/warning label" unique_id=951847709]
+[node name="NoSoundWarning" type="TextureRect" parent="Node/TranscriptButton/warning label" unique_id=951847709]
 layout_mode = 2
 texture = ExtResource("4_c6s6u")
 expand_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Node/TranscriptButton/warning label" unique_id=361699310]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="noRepeat" type="TextureRect" parent="Node/TranscriptButton/warning label/MarginContainer" unique_id=141786665]
+layout_mode = 2
+texture = ExtResource("5_e4ibk")
+expand_mode = 2
+
+[node name="RepititionsLabel" type="Label" parent="Node/TranscriptButton/warning label" unique_id=409892965]
+layout_mode = 2
+text = "12"
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1583673791]
 layout_mode = 1
@@ -225,11 +236,23 @@ autowrap_mode = 3
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="main menu" type="Button" parent="VBoxContainer/HBoxContainer/Control" unique_id=1340819093]
-layout_mode = 0
-offset_right = 36.0
-offset_bottom = 31.0
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/Control" unique_id=315384880]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="main menu" type="Button" parent="VBoxContainer/HBoxContainer/Control/VBoxContainer" unique_id=1340819093]
+layout_mode = 2
 text = "main menu"
+
+[node name="autoplay" type="CheckButton" parent="VBoxContainer/HBoxContainer/Control/VBoxContainer" unique_id=775636211]
+unique_name_in_owner = true
+layout_mode = 2
+button_pressed = true
+text = "autoplay"
 
 [node name="Panel" type="Panel" parent="VBoxContainer" unique_id=1227424115]
 layout_mode = 2
@@ -376,7 +399,7 @@ color = Color(0.84705883, 0.21960784, 0.21568628, 0.40392157)
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/HBoxContainer/openFolder" to="." method="_on_open_folder_pressed"]
 [connection signal="text_changed" from="VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Module data/module name" to="." method="_on_module_name_text_changed"]
 [connection signal="text_changed" from="VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Module data/description box" to="." method="_on_description_box_text_changed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/Control/main menu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Control/VBoxContainer/main menu" to="." method="_on_main_menu_pressed"]
 [connection signal="focus_exited" from="VBoxContainer/Panel/MarginContainer/HBoxContainer2/VBoxContainer/transcriptEdit" to="." method="_on_transcript_edit_focus_exited"]
 [connection signal="text_changed" from="VBoxContainer/Panel/MarginContainer/HBoxContainer2/VBoxContainer/transcriptEdit" to="." method="_on_transcript_edit_text_changed"]
 [connection signal="pressed" from="VBoxContainer/Panel/MarginContainer/HBoxContainer2/VBoxContainer2/Panel/MarginContainer/VBoxContainer/recordButton" to="." method="_on_record_button_pressed"]

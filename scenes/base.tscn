@@ -59,6 +59,13 @@ metadata/_custom_type_script = "uid://bqo5emomonmoe"
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=2044638723]
 stream = SubResource("AudioStreamInteractive_h05ir")
 
+[node name="filesTester" type="Label" parent="." unique_id=1691298886]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 517.0
+offset_right = 697.0
+offset_bottom = 956.0
+
 [connection signal="on_input_frame_captured" from="DirectAudioInputRecorder" to="." method="_on_direct_audio_input_recorder_on_input_frame_captured"]
 [connection signal="pressed" from="record" to="." method="_on_record_pressed"]
 [connection signal="pressed" from="stop" to="." method="_on_stop_pressed"]

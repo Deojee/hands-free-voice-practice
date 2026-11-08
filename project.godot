@@ -22,7 +22,6 @@ buses/default_bus_layout="uid://clqrrvdgulsid"
 driver/output_latency=50
 driver/output_latency.web=100
 driver/enable_input=true
-driver/mix_rate.web=48000
 
 [display]
 
