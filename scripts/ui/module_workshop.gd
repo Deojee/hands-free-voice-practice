@@ -12,6 +12,8 @@ var workingModule : Module
 var clips : Array[ReferenceClip]
 var workingReferenceClip : ReferenceClip
 
+#always increases when the debug label changes
+var debugNum = 0
 
 
 func _ready() -> void:
@@ -50,7 +52,8 @@ func updateTranscriptButtonList():
 		newButton.button_down.connect(changeWorkingReferenceClip.bind(r))
 		%referenceClipHolder.add_child(newButton)
 		
-		newButton.get_child(1).visible = r.audioStreamPath != null
+		newButton.get_child(1).visible = r.sound == null
+		print(r.sound)
 		
 		if i == pos:
 			newButton.modulate = Color.RED
@@ -64,9 +67,15 @@ func updateTranscriptButtonList():
 
 func changeWorkingReferenceClip(newRefClip):
 	
-	#print("called!!")
+	if newRefClip == workingReferenceClip:
+		return
+	
+	if isRecording: #abort the recording if recording
+		recorder.stop_capturing()
+		%recordButton.text = RECORD_BUTTON_STOP
 	
 	if newRefClip == null:
+		workingReferenceClip = null
 		%transcriptEdit.text = "null"
 		%repeatableButton.button_pressed = false
 		%repeatNum.value = 1
@@ -87,9 +96,11 @@ func changeWorkingReferenceClip(newRefClip):
 	
 	%"Delete Clip".disabled = false
 	
+	%playButton.disabled = workingReferenceClip.sound == null
+	
 	updateTranscriptButtonList()
 
-
+##loading an audio file into the current reference clip
 func _on_load_file_pressed() -> void:
 	
 	pass # Replace with function body.
@@ -105,17 +116,47 @@ func _on_transcript_edit_focus_exited() -> void:
 	#would be in the other one but could cause lag :/
 	updateTranscriptButtonList()
 
-
+@onready var recorder : DirectAudioInputRecorder = $DirectAudioInputRecorder
+@onready var audioPlayer : AudioStreamPlayer = $AudioStreamPlayer
+const RECORD_BUTTON_START = "Record"
+const RECORD_BUTTON_STOP = "Stop Record"
+var isRecording : bool:
+	get():
+		return recorder._is_recording
+	set(value):
+		print("cannot set recorder recording")
 func _on_record_button_pressed() -> void:
-	pass # Replace with function body.
+	if !isRecording:
+		recorder.start_capturing()
+		%recordButton.text = RECORD_BUTTON_STOP
+		return
+	
+	recorder.stop_capturing()
+	%recordButton.text = RECORD_BUTTON_START
+	%playButton.disabled = false
+	var recording : AudioStream  = recorder.get_recording()
+	workingReferenceClip.sound = recording
+	updateTranscriptButtonList()
+	
 
-
+##plays the audio file associated with the current reference clip
 func _on_play_button_pressed() -> void:
+	if !workingReferenceClip:
+		setDebugLabel("No reference clip!")
+	if !workingReferenceClip.sound:
+		setDebugLabel("No reference clip sound!")
+	
+	print("playing the sound!")
+	audioPlayer.stream = workingReferenceClip.sound
+	audioPlayer.play()
 	pass # Replace with function body.
 
 
 
 func _on_repeatable_button_toggled(toggled_on: bool) -> void:
+	if !workingReferenceClip:
+		return
+	
 	workingReferenceClip.noRepeat = !toggled_on
 	if workingReferenceClip.noRepeat:
 		%repeatableButton.text = "Not repeated"
@@ -163,6 +204,7 @@ func _on_delete_clip_pressed() -> void:
 	updateTranscriptButtonList()
 
 
+##loading a module
 func _on_load_pressed() -> void:
 	print("hey")
 	var fd = %FileDialog
@@ -170,26 +212,59 @@ func _on_load_pressed() -> void:
 	fd.add_filter("*.mod")
 	fd.popup()
 	
-	
-	
-	
-	
-	pass # Replace with function body.
+	#not complete
+	var save_file = FileAccess.open("user://savegame.save", FileAccess.READ)
+	while save_file.get_position() < save_file.get_length():
+		var json_string = save_file.get_line()
 
+	
+	
+
+##exporting a module
 
 func _on_export_pressed() -> void:
 	
-	var json = false
-	var exportPath : String = "user://lastExport.save"
+	
 	
 	
 	
 	pass # Replace with function body.
 
-
+const exportPath : String = "user://exports"
+##saving a module
 func _on_save_pressed() -> void:
+	
+	if workingModule.name == "":
+		setDebugLabel(" Module has no name!")
+		return 
+	
+	
+	var exportName = "export" + workingModule.name
+	const audioFileFolderName = "audioFiles"
+	const metaDataFileName = "metadata.json"
+	
+	var currentExportFolder = exportPath.path_join(exportName)
+	var currentExportAudioFilesFolder = currentExportFolder.path_join(audioFileFolderName)
+	
+	if DirAccess.dir_exists_absolute(currentExportFolder):
+		setDebugLabel("folder \"" + currentExportFolder + "\" already exists!")
+		return 
+	
+	#create the folder that we put everything in
+	#and then the sub folder that we put the audiofiles in
+	var error1 = DirAccess.make_dir_recursive_absolute(currentExportFolder)
+	var error2 = DirAccess.make_dir_recursive_absolute(audioFileFolderName)
+	
+	#create the metadata file immediately in currentExportFolder
+	var metaDataFile = FileAccess.open(currentExportFolder.path_join(metaDataFileName), FileAccess.WRITE)
+	
+	
+	
 	pass # Replace with function body.
 
+func setDebugLabel(errorText : String):
+	debugNum += 1
+	%debugLabel.text = str(debugNum) + " Debug: " + errorText
 
 func _on_move_up_pressed() -> void:
 	var pos = getCurrentClipIndex()
@@ -209,3 +284,12 @@ func _on_move_down_pressed() -> void:
 	workingModule.references.insert(pos + 1,workingReferenceClip)
 	
 	updateTranscriptButtonList()
+
+
+func _on_open_folder_pressed() -> void:
+	OS.shell_open(ProjectSettings.globalize_path(exportPath))
+
+
+func _on_audio_stream_player_finished() -> void:
+	print("finished")
+	pass # Replace with function body.

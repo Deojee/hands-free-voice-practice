@@ -68,9 +68,9 @@ func _on_direct_audio_input_recorder_on_input_frame_captured(last_input_frames: 
 	
 	
 	var inputSize = last_input_frames.size()
-	print(inputSize)
+	#print(inputSize)
 	inputSum += inputSize
-	prints(inputSum,Time.get_ticks_msec()/1000.0)
+	#prints(inputSum,Time.get_ticks_msec()/1000.0)
 	
 	return
 	
