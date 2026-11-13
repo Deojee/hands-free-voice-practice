@@ -116,6 +116,8 @@ func changeWorkingReferenceClip(newRefClip):
 	
 	updateTranscriptButtonList()
 
+
+
 ##loading an audio file into the current reference clip
 func _on_load_file_pressed() -> void:
 	
@@ -229,16 +231,63 @@ func _on_load_pressed() -> void:
 	print("hey")
 	var fd = %FileDialog
 	fd.clear_filename_filter()
-	fd.add_filter("*.mod")
+	#fd.add_filter("*.mod")
+	fd.file_mode = FileDialog.FILE_MODE_OPEN_DIR
+	fd.current_dir = ProjectSettings.globalize_path(exportPath)
 	fd.popup()
 	
 	#not complete
-	var save_file = FileAccess.open("user://savegame.save", FileAccess.READ)
-	while save_file.get_position() < save_file.get_length():
-		var json_string = save_file.get_line()
+	#var save_file = FileAccess.open("user://savegame.save", FileAccess.READ)
+	#while save_file.get_position() < save_file.get_length():
+		#var json_string = save_file.get_line()
 
+func _on_file_dialog_dir_selected(dir: String) -> void:
+	
+	print("folder selected!")
+	var metaDataFile = FileAccess.open(dir.path_join(metaDataFileName), FileAccess.READ)
+	
+	workingModule = Module.new()
+	var json_string = metaDataFile.get_line() #this is the first line
+	var json = JSON.new()
+	
+	# Check if there is any error while parsing the JSON string, skip in case of failure.
+	var parse_result = json.parse(json_string)
+	if not parse_result == OK:
+		print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
+		return
+	
+	# Get the data from the JSON object.
+	var node_data = json.data
+	
+	# Now we set the remaining variables.
+	for key in node_data.keys():
+		
+		workingModule.set(key, node_data[key])
 	
 	
+	while metaDataFile.get_position() < metaDataFile.get_length():
+		
+		var currentReferenceClip : ReferenceClip = ReferenceClip.new()
+		
+		json_string = metaDataFile.get_line() #this is the first line
+		json = JSON.new()
+		
+		# Check if there is any error while parsing the JSON string, skip in case of failure.
+		parse_result = json.parse(json_string)
+		if not parse_result == OK:
+			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
+			return
+		
+		# Get the data from the JSON object.
+		node_data = json.data
+		
+		# Now we set the remaining variables.
+		for key in node_data.keys():
+			
+			currentReferenceClip.set(key, node_data[key])
+		
+		workingModule.references.append(currentReferenceClip)
+
 
 ##exporting a module
 
@@ -250,7 +299,9 @@ func _on_export_pressed() -> void:
 	
 	pass # Replace with function body.
 
+const metaDataFileName = "metadata.json"
 const exportPath : String = "user://exports"
+const exportFolderExtension : String = ".mod"
 ##saving a module
 func _on_save_pressed() -> void:
 	
@@ -261,9 +312,9 @@ func _on_save_pressed() -> void:
 	
 	var exportName = "export" + workingModule.name
 	const audioFileFolderName = "audioFiles"
-	const metaDataFileName = "metadata.json"
 	
-	var currentExportFolder = exportPath.path_join(exportName)
+	
+	var currentExportFolder = exportPath.path_join(exportName) + exportFolderExtension
 	var currentExportAudioFilesFolder = currentExportFolder.path_join(audioFileFolderName)
 	
 	if DirAccess.dir_exists_absolute(currentExportFolder):
@@ -275,8 +326,15 @@ func _on_save_pressed() -> void:
 	var error1 = DirAccess.make_dir_recursive_absolute(currentExportFolder)
 	var error2 = DirAccess.make_dir_recursive_absolute(currentExportAudioFilesFolder)
 	
+	#calculating 
+	
+	
 	#create the metadata file immediately in currentExportFolder
 	var metaDataFile = FileAccess.open(currentExportFolder.path_join(metaDataFileName), FileAccess.WRITE)
+	
+	
+	#first line of metadata is the module itself
+	metaDataFile.store_line(JSON.stringify(workingModule.getDict()))
 	
 	const audioFilePrefix : String = "audioClip"
 	var i : int = 0
