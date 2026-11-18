@@ -382,7 +382,7 @@ func _on_save_pressed() -> void:
 	
 	
 	
-	var currentExportFolder = exportPath.path_join(exportName) + exportFolderExtension
+	var currentExportFolder = exportPath.path_join(exportName) #+ exportFolderExtension
 	var currentExportAudioFilesFolder = currentExportFolder.path_join(audioFileFolderName)
 	
 	if DirAccess.dir_exists_absolute(currentExportFolder):
@@ -398,7 +398,8 @@ func _on_save_pressed() -> void:
 	
 	
 	#create the metadata file immediately in currentExportFolder
-	var metaDataFile = FileAccess.open(currentExportFolder.path_join(metaDataFileName), FileAccess.WRITE)
+	var metaDataFilePath = currentExportFolder.path_join(metaDataFileName)
+	var metaDataFile = FileAccess.open(metaDataFilePath, FileAccess.WRITE)
 	
 	
 	#first line of metadata is the module itself
@@ -430,6 +431,29 @@ func _on_save_pressed() -> void:
 	
 	metaDataFile.close()
 	
+	var packer = ZIPPacker.new()
+	var err = packer.open(currentExportFolder + exportFolderExtension)
+	if err != OK:
+		setDebugLabel("Error packing, " + str(err))
+		return
+	
+	#first add the metaData file
+	packer.start_file(metaDataFileName)
+	packer.write_file(FileAccess.get_file_as_bytes(metaDataFilePath))
+	packer.close_file()
+	packer.add_directory(audioFileFolderName)
+	
+	#then we add all the audio files
+	print("printing files")
+	for file in DirAccess.get_files_at(currentExportAudioFilesFolder):
+		packer.start_file(audioFileFolderName.path_join(file))
+		packer.write_file(FileAccess.get_file_as_bytes(
+			currentExportAudioFilesFolder.path_join(file)
+			)
+		)
+		packer.close_file()
+	
+	packer.close()
 	
 
 func setDebugLabel(errorText : String):
