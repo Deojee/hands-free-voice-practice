@@ -16,7 +16,12 @@ var numRepeat : int = 1
 
 
 func getAudioStream():
-	sound = load(audioStreamLocation.path_join(audioStreamPath))
+	var path = audioStreamLocation.path_join(audioStreamPath)
+	print("Loading: " + path)
+	sound = AudioStreamWAV.load_from_file(path)
+	#sound = load(path)
+	print(sound)
+	
 
 #clears the audio stream from memory so it doesn't take up ram.
 func clearAudioStream():

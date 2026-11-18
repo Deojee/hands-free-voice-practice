@@ -212,6 +212,7 @@ layout_mode = 2
 text = "Module Name:"
 
 [node name="module name" type="LineEdit" parent="VBoxContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Module data" unique_id=1159866455]
+unique_name_in_owner = true
 layout_mode = 2
 placeholder_text = "name go here"
 
@@ -253,6 +254,15 @@ unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 text = "autoplay"
+
+[node name="hotkeyHint" type="Label" parent="VBoxContainer/HBoxContainer/Control/VBoxContainer" unique_id=848400570]
+layout_mode = 2
+text = "Press tab to insert a new clip, begin recording for that clip, and focus the transcript box
+
+CMD/CTRL R: start/stop recording
+
+CMD/CTRL P: play current recording"
+autowrap_mode = 3
 
 [node name="Panel" type="Panel" parent="VBoxContainer" unique_id=1227424115]
 layout_mode = 2

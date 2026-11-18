@@ -31,6 +31,47 @@ func _ready() -> void:
 	
 	
 
+func _physics_process(delta: float) -> void:
+	
+	#ui appearance Stuff
+	if isRecording:
+		%"Audio file info".text = (
+			"Length: " + str(
+				snappedf((Time.get_ticks_msec() - recordingStart)/1000,0.1)
+			)
+		)
+	elif workingReferenceClip and workingReferenceClip.sound:
+		%"Audio file info".text = (
+			"Length: " + str(
+				snappedf(workingReferenceClip.sound.get_length(),0.1)
+			)
+		)
+	else:
+		%"Audio file info".text = "No audio"
+	
+	#hotkeys
+	
+	if Input.is_action_just_pressed("tab"):
+		
+		if isRecording:
+			stopRecording()
+		
+		_on_insert_new_clip_pressed()
+		
+		_on_record_button_pressed()
+		
+		%transcriptEdit.grab_focus()
+	
+	if !Input.is_action_pressed("commandControl"):
+		return
+	
+	if Input.is_action_just_pressed("r"):
+		_on_record_button_pressed()
+	
+	if Input.is_action_just_pressed("p"):
+		_on_play_button_pressed()
+	
+
 
 func _on_main_menu_pressed() -> void:
 	if Engine.is_editor_hint():
@@ -87,8 +128,7 @@ func changeWorkingReferenceClip(newRefClip):
 		return
 	
 	if isRecording: #abort the recording if recording
-		recorder.stop_capturing()
-		%recordButton.text = RECORD_BUTTON_STOP
+		stopRecording(true)
 	
 	if newRefClip == null:
 		workingReferenceClip = null
@@ -134,6 +174,8 @@ func _on_transcript_edit_focus_exited() -> void:
 	#would be in the other one but could cause lag :/
 	updateTranscriptButtonList()
 
+
+var recordingStart : float = 0 #the time when we started recording
 @onready var recorder : DirectAudioInputRecorder = $DirectAudioInputRecorder
 @onready var audioPlayer : AudioStreamPlayer = $AudioStreamPlayer
 const RECORD_BUTTON_START = "Record"
@@ -144,28 +186,42 @@ var isRecording : bool:
 	set(value):
 		print("cannot set recorder recording")
 func _on_record_button_pressed() -> void:
+	
+	if audioPlayer.playing:
+		audioPlayer.stop()
+	
 	if !isRecording:
 		recorder.start_capturing()
 		%recordButton.text = RECORD_BUTTON_STOP
+		recordingStart = Time.get_ticks_msec()
 		return
 	
-	recorder.stop_capturing()
-	%recordButton.text = RECORD_BUTTON_START
-	%playButton.disabled = false
-	var recording : AudioStream  = recorder.get_recording()
-	workingReferenceClip.sound = recording
-	updateTranscriptButtonList()
+	stopRecording()
 	
 	if %autoplay.button_pressed:
 		_on_play_button_pressed()
 	
 
+func stopRecording(abort = false):
+	recorder.stop_capturing()
+	%recordButton.text = RECORD_BUTTON_START
+	
+	if abort: #abort means that we want to discard the recording
+		return
+	
+	%playButton.disabled = false
+	var recording : AudioStream  = recorder.get_recording()
+	workingReferenceClip.sound = recording
+	updateTranscriptButtonList()
+
 ##plays the audio file associated with the current reference clip
 func _on_play_button_pressed() -> void:
 	if !workingReferenceClip:
 		setDebugLabel("No reference clip!")
+		return
 	if !workingReferenceClip.sound:
 		setDebugLabel("No reference clip sound!")
+		return
 	
 	print("playing the sound!")
 	if audioPlayer.stream != workingReferenceClip.sound:
@@ -214,7 +270,7 @@ func _on_add_clip_pressed() -> void:
 func _on_insert_new_clip_pressed() -> void:
 	var newClip = ReferenceClip.new()
 	var pos = getCurrentClipIndex()
-	workingModule.references.insert(pos,newClip)
+	workingModule.references.insert(pos + 1,newClip)
 	changeWorkingReferenceClip(newClip)
 	updateTranscriptButtonList()
 
@@ -231,8 +287,11 @@ func _on_load_pressed() -> void:
 	print("hey")
 	var fd = %FileDialog
 	fd.clear_filename_filter()
-	#fd.add_filter("*.mod")
+	
+	
 	fd.file_mode = FileDialog.FILE_MODE_OPEN_DIR
+	
+	fd.add_filter("*.mod")
 	fd.current_dir = ProjectSettings.globalize_path(exportPath)
 	fd.popup()
 	
@@ -259,9 +318,8 @@ func _on_file_dialog_dir_selected(dir: String) -> void:
 	# Get the data from the JSON object.
 	var node_data = json.data
 	
-	# Now we set the remaining variables.
+	# Now we set the values of the module itself
 	for key in node_data.keys():
-		
 		workingModule.set(key, node_data[key])
 	
 	
@@ -286,7 +344,16 @@ func _on_file_dialog_dir_selected(dir: String) -> void:
 			
 			currentReferenceClip.set(key, node_data[key])
 		
+		currentReferenceClip.audioStreamLocation = (dir.path_join(audioFileFolderName))
+		currentReferenceClip.getAudioStream()
+		
 		workingModule.references.append(currentReferenceClip)
+	
+	print(workingModule.references)
+	updateTranscriptButtonList()
+	%"module name".text = workingModule.name
+	%"description box".text = workingModule.description
+	
 
 
 ##exporting a module
@@ -302,6 +369,7 @@ func _on_export_pressed() -> void:
 const metaDataFileName = "metadata.json"
 const exportPath : String = "user://exports"
 const exportFolderExtension : String = ".mod"
+const audioFileFolderName = "audioFiles"
 ##saving a module
 func _on_save_pressed() -> void:
 	
@@ -311,7 +379,7 @@ func _on_save_pressed() -> void:
 	
 	
 	var exportName = "export" + workingModule.name
-	const audioFileFolderName = "audioFiles"
+	
 	
 	
 	var currentExportFolder = exportPath.path_join(exportName) + exportFolderExtension
@@ -348,8 +416,8 @@ func _on_save_pressed() -> void:
 		var audioFileLocalPath = currentExportAudioFilesFolder.path_join(audioFileName)
 		
 		
-		rc.audioStreamLocation = ""
-		rc.audioStreamPath = audioFileLocalPath
+		rc.audioStreamLocation = currentExportAudioFilesFolder
+		rc.audioStreamPath = audioFileName
 		
 		var json_string = JSON.stringify(rc.getDict())
 		# Store the save dictionary as a new line in the save file.
@@ -360,7 +428,9 @@ func _on_save_pressed() -> void:
 		
 		pass
 	
-	pass # Replace with function body.
+	metaDataFile.close()
+	
+	
 
 func setDebugLabel(errorText : String):
 	debugNum += 1
