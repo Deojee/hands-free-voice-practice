@@ -16,7 +16,7 @@ static func getModuleFromPath(path : String) -> Module:
 	
 	extract_all_from_zip(path)
 	
-	var module : Module = createWorkingModuleFromDir(tempExtractPath)
+	var module : Module = _createWorkingModuleFromDir(tempExtractPath)
 	
 	for file in DirAccess.get_files_at(tempExtractPath):
 		DirAccess.remove_absolute(tempExtractPath.path_join(file))
@@ -55,7 +55,7 @@ static func extract_all_from_zip(path: String):
 		var buffer = reader.read_file(file_path)
 		file.store_buffer(buffer)
 
-static func createWorkingModuleFromDir(dir : String) -> Module:
+static func _createWorkingModuleFromDir(dir : String) -> Module:
 	print("folder selected!")
 	var metaDataFile = FileAccess.open(dir.path_join(metaDataFileName), FileAccess.READ)
 	

@@ -2,43 +2,12 @@ extends Control
 
 var modules : Array[Module] = []
 
+const defaultModulePath = "res://defaultModules/"
+
 func _ready() -> void:
 	
-	if true:
-		var module : Module = Module.new()
-		
-		module.name = "Testing Module"
-		
-		var files = ["AudioClipOne","two","three","four","five","six","seven","eight","nine","ten"]
-		
-		for file in files:
-			
-			var newStream := ReferenceClip.new()
-			newStream.audioStreamPath = "res://testingClips/" + file + ".ogg"
-			newStream.transcript = file
-			module.references.append(newStream)
-		
-		modules.append(module)
-	
-	#LJ module
-	if true:
-		var module : Module = Module.new()
-		
-		module.name = "LJ Cis Fem 400"
-		
-		var files = ResourceLoader.list_directory(Constants.Paths.LJAudioSubsetPath)
-		
-		for file_name in files:
-			#print("Found file: ", file_name)
-			if file_name.ends_with(".import"):
-				continue
-			var newStream = ReferenceClip.new()
-			
-			newStream.audioStreamPath = Constants.Paths.LJAudioSubsetPath.path_join(file_name)
-			
-			module.references.append(newStream)
-		
-		modules.append(module)
+	for file in DirAccess.get_files_at(defaultModulePath):
+		modules.append(ModuleLoader.getModuleFromPath(defaultModulePath.path_join(file)))
 	
 	#above is placeholder, below is somewhat final
 	
