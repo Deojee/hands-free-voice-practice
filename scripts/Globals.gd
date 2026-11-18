@@ -95,5 +95,6 @@ class Settings:
 				print("Attempt to static set nonexistant property")
 			
 	
-	
+
+func getModuleFromPath():
 	

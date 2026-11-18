@@ -76,10 +76,10 @@ func _physics_process(delta: float) -> void:
 		recorder.minimumVolumeToRecord = Globals.Settings.minVolumeToRecord
 		
 		var currentClip : ReferenceClip = module.references[clipNum]
-		currentClip.getAudioStream()
+		#currentClip.getAudioStream()
 		var sound = currentClip.sound
 		var currentClipLength : float = currentClip.getLength()
-		currentClip.clearAudioStream() #garbage collection
+		#currentClip.clearAudioStream() #garbage collection
 		
 		
 		#print(clipNum)

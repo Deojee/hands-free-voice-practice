@@ -351,11 +351,13 @@ text = "Play
 "
 
 [node name="Label" type="Label" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer2/VBoxContainer2/Panel/MarginContainer/VBoxContainer" unique_id=814218215]
+visible = false
 layout_mode = 2
 text = "load"
 
 [node name="loadFile" type="Button" parent="VBoxContainer/Panel/MarginContainer/HBoxContainer2/VBoxContainer2/Panel/MarginContainer/VBoxContainer" unique_id=679249977]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_horizontal = 0
 disabled = true

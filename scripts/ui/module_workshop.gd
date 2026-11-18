@@ -291,7 +291,7 @@ func _on_load_pressed() -> void:
 	
 	fd.file_mode = FileDialog.FILE_MODE_OPEN_FILE
 	
-	fd.add_filter("*.mod")
+	fd.add_filter("*.module")
 	fd.current_dir = ProjectSettings.globalize_path(exportPath)
 	fd.popup()
 	
@@ -419,7 +419,7 @@ const exportPath : String = "user://exports"
 
 #this is a tempory location where files are loaded before they get zipped
 const tempExportPath : String = "user://temp/exports"
-const exportFolderExtension : String = ".mod"
+const exportFolderExtension : String = ".module"
 const audioFileFolderName = "audioFiles"
 ##saving a module
 func _on_save_pressed() -> void:
@@ -440,8 +440,11 @@ func _on_save_pressed() -> void:
 	var currentExportFolder = tempExportPath.path_join(exportName) #+ exportFolderExtension
 	var currentExportAudioFilesFolder = currentExportFolder.path_join(audioFileFolderName)
 	
-	#if DirAccess.dir_exists_absolute(currentExportFolder):
-		#setDebugLabel("folder \"" + currentExportFolder + "\" already exists!")
+	var zipExportName = exportPath.path_join(exportName) #+ exportFolderExtension
+	
+	#actually it's file to just overwrite it
+	#if FileAccess.file_exists(zipExportName):
+		#setDebugLabel("file \"" + zipExportName + "\" already exists!")
 		#return 
 	
 	#create the folder that we put everything in
@@ -486,8 +489,8 @@ func _on_save_pressed() -> void:
 	
 	metaDataFile.close()
 	
-	
-	var zipExportName = exportPath.path_join(exportName) #+ exportFolderExtension
+	#this got moved up
+	#var zipExportName = exportPath.path_join(exportName) #+ exportFolderExtension
 	
 	
 	var packer = ZIPPacker.new()
