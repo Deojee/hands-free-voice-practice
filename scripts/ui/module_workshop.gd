@@ -289,7 +289,7 @@ func _on_load_pressed() -> void:
 	fd.clear_filename_filter()
 	
 	
-	fd.file_mode = FileDialog.FILE_MODE_OPEN_DIR
+	fd.file_mode = FileDialog.FILE_MODE_OPEN_FILE
 	
 	fd.add_filter("*.mod")
 	fd.current_dir = ProjectSettings.globalize_path(exportPath)
@@ -302,6 +302,54 @@ func _on_load_pressed() -> void:
 
 func _on_file_dialog_dir_selected(dir: String) -> void:
 	
+	
+	
+	pass
+
+const tempExtractPath = "user://temp/extracts"
+func _on_file_dialog_file_selected(path: String) -> void:
+	
+	#we're assuming the path leads to a .mod file which is actually a .zip file 
+	extract_all_from_zip(path)
+	
+	createWorkingModuleFromDir(tempExtractPath)
+	
+	for file in DirAccess.get_files_at(tempExtractPath):
+		DirAccess.remove_absolute(tempExtractPath.path_join(file))
+	var audioFilesPath = tempExtractPath.path_join(audioFileFolderName)
+	for file in DirAccess.get_files_at(audioFilesPath):
+		DirAccess.remove_absolute(audioFilesPath.path_join(file))
+	
+	
+
+# Extract all files from a ZIP archive, preserving the directories within.
+# This acts like the "Extract all" functionality from most archive managers.
+func extract_all_from_zip(path: String):
+	var reader = ZIPReader.new()
+	reader.open(path)
+	
+	# Destination directory for the extracted files (this folder must exist before extraction).
+	# Not all ZIP archives put everything in a single root folder,
+	# which means several files/folders may be created in `root_dir` after extraction.
+	DirAccess.make_dir_recursive_absolute(tempExtractPath)
+	var root_dir = DirAccess.open(tempExtractPath)
+	
+	var files = reader.get_files()
+	for file_path in files:
+		# If the current entry is a directory.
+		if file_path.ends_with("/"):
+			root_dir.make_dir_recursive(file_path)
+			continue
+	
+		# Write file contents, creating folders automatically when needed.
+		# Not all ZIP archives are strictly ordered, so we need to do this in case
+		# the file entry comes before the folder entry.
+		root_dir.make_dir_recursive(root_dir.get_current_dir().path_join(file_path).get_base_dir())
+		var file = FileAccess.open(root_dir.get_current_dir().path_join(file_path), FileAccess.WRITE)
+		var buffer = reader.read_file(file_path)
+		file.store_buffer(buffer)
+
+func createWorkingModuleFromDir(dir : String) -> void:
 	print("folder selected!")
 	var metaDataFile = FileAccess.open(dir.path_join(metaDataFileName), FileAccess.READ)
 	
@@ -368,10 +416,17 @@ func _on_export_pressed() -> void:
 
 const metaDataFileName = "metadata.json"
 const exportPath : String = "user://exports"
+
+#this is a tempory location where files are loaded before they get zipped
+const tempExportPath : String = "user://temp/exports"
 const exportFolderExtension : String = ".mod"
 const audioFileFolderName = "audioFiles"
 ##saving a module
 func _on_save_pressed() -> void:
+	
+	#make sure the space where we put the temp exports is empty
+	DirAccess.make_dir_recursive_absolute(tempExportPath)
+	
 	
 	if workingModule.name == "":
 		setDebugLabel(" Module has no name!")
@@ -382,12 +437,12 @@ func _on_save_pressed() -> void:
 	
 	
 	
-	var currentExportFolder = exportPath.path_join(exportName) #+ exportFolderExtension
+	var currentExportFolder = tempExportPath.path_join(exportName) #+ exportFolderExtension
 	var currentExportAudioFilesFolder = currentExportFolder.path_join(audioFileFolderName)
 	
-	if DirAccess.dir_exists_absolute(currentExportFolder):
-		setDebugLabel("folder \"" + currentExportFolder + "\" already exists!")
-		return 
+	#if DirAccess.dir_exists_absolute(currentExportFolder):
+		#setDebugLabel("folder \"" + currentExportFolder + "\" already exists!")
+		#return 
 	
 	#create the folder that we put everything in
 	#and then the sub folder that we put the audiofiles in
@@ -431,8 +486,12 @@ func _on_save_pressed() -> void:
 	
 	metaDataFile.close()
 	
+	
+	var zipExportName = exportPath.path_join(exportName) #+ exportFolderExtension
+	
+	
 	var packer = ZIPPacker.new()
-	var err = packer.open(currentExportFolder + exportFolderExtension)
+	var err = packer.open(zipExportName + exportFolderExtension)
 	if err != OK:
 		setDebugLabel("Error packing, " + str(err))
 		return
@@ -444,7 +503,7 @@ func _on_save_pressed() -> void:
 	packer.add_directory(audioFileFolderName)
 	
 	#then we add all the audio files
-	print("printing files")
+	#print("printing files")
 	for file in DirAccess.get_files_at(currentExportAudioFilesFolder):
 		packer.start_file(audioFileFolderName.path_join(file))
 		packer.write_file(FileAccess.get_file_as_bytes(
@@ -454,6 +513,13 @@ func _on_save_pressed() -> void:
 		packer.close_file()
 	
 	packer.close()
+	
+	#clean up the temp files that we just made
+	DirAccess.remove_absolute(metaDataFilePath)
+	for file in DirAccess.get_files_at(currentExportAudioFilesFolder):
+		DirAccess.remove_absolute(currentExportAudioFilesFolder.path_join(file))
+	DirAccess.remove_absolute(currentExportAudioFilesFolder)
+	DirAccess.remove_absolute(currentExportFolder)
 	
 
 func setDebugLabel(errorText : String):
