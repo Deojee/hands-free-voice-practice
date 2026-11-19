@@ -85,8 +85,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Modules
-"
+text = "Modules"
 horizontal_alignment = 1
 autowrap_mode = 2
 
@@ -94,9 +93,19 @@ autowrap_mode = 2
 layout_mode = 2
 text = "Main Menu"
 
+[node name="ModulesFolder" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1167427698]
+layout_mode = 2
+text = "Open folder"
+
+[node name="Refresh" type="Button" parent="MarginContainer/VBoxContainer" unique_id=792038414]
+layout_mode = 2
+text = "Refresh"
+
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=118957565]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 50
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ModulesFolder" to="." method="_on_modules_folder_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Refresh" to="." method="_on_refresh_pressed"]

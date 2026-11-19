@@ -43,6 +43,9 @@ class Settings:
 		
 		# Store the save dictionary as a new line in the save file.
 		save_file.store_line(json_string)
+		
+		
+		
 	
 	static func loadSettings():
 		if not FileAccess.file_exists(SETTINGS_LOCATION):
