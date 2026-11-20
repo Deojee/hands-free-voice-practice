@@ -14,6 +14,7 @@ var paused : bool = false
 @export var startSpeakingSound : AudioStream
 @export var stopSpeakingSound : AudioStream
 @export var referenceSpeakingSound : AudioStream
+@export var referenceNoRepeatSound : AudioStream
 
 @onready var stoplight : ColorRect = $MarginContainer/VBoxContainer/stoplight
 @onready var stoplightLabel : Label = $MarginContainer/VBoxContainer/stoplight/Label

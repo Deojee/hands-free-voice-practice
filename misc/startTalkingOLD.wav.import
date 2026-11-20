@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://uvf8gvbfbtqm"
-path="res://.godot/imported/startTalking.wav-a307847ce50d48977b13992f6f9e35a5.sample"
+path="res://.godot/imported/startTalkingOLD.wav-2ea3b7c6bca837b11b5fbabef0124111.sample"
 
 [deps]
 
-source_file="res://misc/startTalking.wav"
-dest_files=["res://.godot/imported/startTalking.wav-a307847ce50d48977b13992f6f9e35a5.sample"]
+source_file="res://misc/startTalkingOLD.wav"
+dest_files=["res://.godot/imported/startTalkingOLD.wav-2ea3b7c6bca837b11b5fbabef0124111.sample"]
 
 [params]
 
