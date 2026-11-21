@@ -78,8 +78,8 @@ func _physics_process(delta: float) -> void:
 		
 		var currentClip : ReferenceClip = module.references[clipNum]
 		#currentClip.getAudioStream()
-		var sound = currentClip.sound
-		var currentClipLength : float = currentClip.getLength()
+		#var sound = currentClip.sound
+		
 		#currentClip.clearAudioStream() #garbage collection
 		
 		
@@ -92,13 +92,30 @@ func _physics_process(delta: float) -> void:
 		
 		driveTween = create_tween()
 		
+		impartClipOntoTween(driveTween,currentClip)
 		
-		tweenAppendSound(
-			driveTween,
-			referenceSpeakingSound,
-			Globals.Settings.indicatorVolume,
-			0.0 #no delay on start of loop
-			)
+		
+	
+
+func impartClipOntoTween(driveTween : Tween, currentClip : ReferenceClip):
+	var sound = currentClip.sound
+	var currentClipLength : float = currentClip.getLength()
+	
+	for i in currentClip.numRepeat:
+		if currentClip.noRepeat:
+				tweenAppendSound(
+				driveTween,
+				referenceNoRepeatSound,
+				Globals.Settings.indicatorVolume,
+				0.0 #no delay on start of loop
+				)
+		else:
+			tweenAppendSound(
+				driveTween,
+				referenceSpeakingSound,
+				Globals.Settings.indicatorVolume,
+				0.0 #no delay on start of loop
+				)
 		
 		
 		
@@ -109,6 +126,8 @@ func _physics_process(delta: float) -> void:
 			Globals.Settings.shortDelayLength
 			)
 		
+		if currentClip.noRepeat:
+			continue
 		
 		tweenAppendSound(
 			driveTween,
@@ -138,9 +157,6 @@ func _physics_process(delta: float) -> void:
 		driveTween.tween_await(recorderPlayback.finished)
 		driveTween.tween_callback(self.foo).set_delay(Globals.Settings.longDelayLength)
 		
-	
-	
-	
 
 func updateDebugInfo(delta):
 	var label = $"MarginContainer/debug panel/VBoxContainer/debugLabel"
